@@ -1,0 +1,3504 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Global Investor</title>
+
+<style>
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+body{
+    font-family:Inter,Arial,sans-serif;
+    background:#050b14;
+    color:#f5f7fb;
+}
+
+button,input{
+    font:inherit;
+}
+
+button{
+    cursor:pointer;
+}
+
+.app{
+    max-width:1500px;
+    margin:auto;
+    padding:22px;
+}
+
+/* HEADER */
+
+.header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:20px;
+}
+
+.logo{
+    display:flex;
+    gap:12px;
+    align-items:center;
+}
+
+.logo-icon{
+    width:48px;
+    height:48px;
+    border-radius:14px;
+    background:linear-gradient(135deg,#00e676,#008f62);
+    display:grid;
+    place-items:center;
+    font-size:25px;
+}
+
+.logo h1{
+    font-size:23px;
+}
+
+.logo p{
+    color:#728198;
+    font-size:12px;
+    margin-top:4px;
+}
+
+.round{
+    background:#0e1928;
+    border:1px solid #203148;
+    padding:11px 17px;
+    border-radius:10px;
+}
+
+/* STATS */
+
+.stats{
+    display:grid;
+    grid-template-columns:repeat(5,1fr);
+    gap:12px;
+    margin-bottom:18px;
+}
+
+.stat{
+    background:#0c1625;
+    border:1px solid #1a2a3e;
+    border-radius:15px;
+    padding:16px;
+}
+
+.stat-title{
+    color:#75849a;
+    font-size:12px;
+    margin-bottom:8px;
+}
+
+.stat-value{
+    font-size:21px;
+    font-weight:bold;
+}
+
+.green{color:#00df82}
+.red{color:#ff596b}
+.yellow{color:#ffc857}
+.blue{color:#5fa5ff}
+
+/* MAIN */
+
+.main{
+    display:grid;
+    grid-template-columns:1.55fr 1fr;
+    gap:18px;
+}
+
+.panel{
+    background:#0c1625;
+    border:1px solid #1a2a3e;
+    border-radius:17px;
+    padding:18px;
+    margin-bottom:18px;
+}
+
+.title{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:15px;
+}
+
+.title h2{
+    font-size:17px;
+}
+
+/* COUNTRIES */
+
+.country-grid{
+    display:grid;
+    grid-template-columns:repeat(5,1fr);
+    gap:8px;
+}
+
+.country{
+    background:#101d2e;
+    border:1px solid #21344c;
+    padding:13px 8px;
+    border-radius:11px;
+    text-align:center;
+    transition:.2s;
+}
+
+.country:hover,
+.country.active{
+    border-color:#00d982;
+    background:#12253a;
+}
+
+.flag{
+    font-size:25px;
+}
+
+.country-name{
+    font-weight:bold;
+    margin-top:6px;
+    font-size:12px;
+}
+
+.country-info{
+    color:#718097;
+    font-size:10px;
+    margin-top:4px;
+}
+
+/* COUNTRY FILTER */
+
+.filter{
+    display:flex;
+    gap:7px;
+    overflow:auto;
+    padding-bottom:4px;
+}
+
+.filter button{
+    flex:none;
+    border:1px solid #263a53;
+    background:#101e30;
+    color:#a4b0c0;
+    padding:8px 12px;
+    border-radius:8px;
+    font-size:11px;
+}
+
+.filter button.active{
+    background:#00d982;
+    color:#03140d;
+    border-color:#00d982;
+    font-weight:bold;
+}
+
+/* CRISIS */
+
+.crisis{
+    background:
+        linear-gradient(
+            135deg,
+            rgba(255,74,93,.14),
+            rgba(255,200,87,.04)
+        );
+    border:1px solid #4b303b;
+    border-radius:13px;
+    padding:17px;
+}
+
+.crisis-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.tag{
+    display:inline-block;
+    background:#25364c;
+    padding:5px 8px;
+    border-radius:6px;
+    font-size:9px;
+    font-weight:bold;
+}
+
+.risk{
+    color:#ff6877;
+    background:#35222b;
+    padding:5px 8px;
+    border-radius:6px;
+    font-size:10px;
+    font-weight:bold;
+}
+
+.crisis h3{
+    font-size:16px;
+    margin-top:10px;
+}
+
+.crisis p{
+    color:#9aa7b8;
+    line-height:1.55;
+    font-size:12px;
+    margin-top:7px;
+}
+
+.affected{
+    display:flex;
+    flex-wrap:wrap;
+    gap:6px;
+    margin-top:12px;
+}
+
+.affected span{
+    background:#17273b;
+    color:#9aa9bc;
+    padding:6px 8px;
+    border-radius:6px;
+    font-size:10px;
+}
+
+/* STOCKS */
+
+.stock-list{
+    display:grid;
+    gap:8px;
+}
+
+.stock{
+    display:grid;
+    grid-template-columns:1.5fr .8fr .7fr .8fr auto;
+    align-items:center;
+    gap:10px;
+    background:#101e30;
+    border:1px solid #1e3048;
+    padding:13px;
+    border-radius:11px;
+    transition:.2s;
+}
+
+.stock:hover,
+.stock.active{
+    border-color:#00d982;
+    background:#12253a;
+}
+
+.stock-company{
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+.stock-logo{
+    width:36px;
+    height:36px;
+    border-radius:9px;
+    display:grid;
+    place-items:center;
+    background:#172941;
+    font-size:18px;
+}
+
+.stock-name{
+    font-weight:bold;
+    font-size:13px;
+}
+
+.stock-code{
+    color:#718097;
+    font-size:10px;
+    margin-top:3px;
+}
+
+.price{
+    font-weight:bold;
+}
+
+.change{
+    font-size:11px;
+}
+
+.trade{
+    border:0;
+    background:#00d982;
+    color:#03140d;
+    padding:8px 11px;
+    border-radius:8px;
+    font-weight:bold;
+}
+
+/* NEWS */
+
+.news-list{
+    display:grid;
+    gap:10px;
+}
+
+.news{
+    background:#101e30;
+    border:1px solid #21354e;
+    border-left:4px solid #5865f2;
+    border-radius:11px;
+    padding:14px;
+}
+
+.news.crisis{
+    border-left-color:#ff5365;
+}
+
+.news.company{
+    border-left-color:#00df82;
+}
+
+.news.spec{
+    border-left-color:#ffc857;
+}
+
+.news-head{
+    display:flex;
+    justify-content:space-between;
+    gap:10px;
+}
+
+.news-source{
+    color:#718097;
+    font-size:10px;
+}
+
+.news h3{
+    font-size:14px;
+    margin-top:9px;
+}
+
+.news p{
+    color:#99a6b8;
+    font-size:12px;
+    line-height:1.5;
+    margin-top:6px;
+}
+
+.news-bottom{
+    display:flex;
+    justify-content:space-between;
+    margin-top:10px;
+    font-size:10px;
+}
+
+/* CHART */
+
+.chart{
+    height:280px;
+}
+
+canvas{
+    width:100%;
+    height:100%;
+}
+
+/* TRADE */
+
+.trade-box{
+    background:#101e30;
+    border-radius:13px;
+    padding:16px;
+}
+
+.selected{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:12px;
+}
+
+.selected-price{
+    font-size:18px;
+    font-weight:bold;
+}
+
+.buy-info{
+    background:#07121e;
+    border:1px solid #20354d;
+    border-radius:9px;
+    padding:11px;
+    font-size:11px;
+    line-height:1.7;
+    margin-bottom:9px;
+}
+
+.input-row{
+    display:flex;
+    gap:7px;
+}
+
+input{
+    flex:1;
+    background:#07111d;
+    color:white;
+    border:1px solid #2a405a;
+    border-radius:8px;
+    padding:11px;
+    outline:none;
+}
+
+.action{
+    border:0;
+    padding:11px 17px;
+    border-radius:8px;
+    font-weight:bold;
+}
+
+.buy{
+    background:#00d982;
+    color:#03140d;
+}
+
+.sell{
+    background:#ff5264;
+    color:white;
+}
+
+.max{
+    width:100%;
+    border:0;
+    margin-top:7px;
+    padding:9px;
+    border-radius:8px;
+    background:#243951;
+    color:#fff;
+}
+
+/* PORTFOLIO */
+
+.portfolio{
+    display:grid;
+    gap:8px;
+}
+
+.portfolio-item{
+    background:#101e30;
+    border-radius:10px;
+    padding:13px;
+}
+
+.port-top{
+    display:flex;
+    justify-content:space-between;
+}
+
+.port-bottom{
+    display:flex;
+    justify-content:space-between;
+    margin-top:7px;
+    color:#75849a;
+    font-size:10px;
+}
+
+.empty{
+    color:#6e7d92;
+    text-align:center;
+    padding:20px;
+}
+
+/* STATUS */
+
+.status{
+    background:#101e30;
+    border:1px solid #1d3048;
+    padding:11px;
+    border-radius:9px;
+    color:#8b99aa;
+    font-size:11px;
+    margin-bottom:9px;
+}
+
+/* NEXT */
+
+.next{
+    width:100%;
+    border:0;
+    background:#5865f2;
+    color:white;
+    padding:15px;
+    border-radius:10px;
+    font-weight:bold;
+}
+
+.next:hover{
+    background:#6b76ff;
+}
+
+/* MODAL */
+
+.modal{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.84);
+    display:none;
+    place-items:center;
+    z-index:50;
+}
+
+.modal.show{
+    display:grid;
+}
+
+.modal-box{
+    width:min(460px,90%);
+    background:#101d2e;
+    border:1px solid #293f59;
+    border-radius:20px;
+    padding:30px;
+    text-align:center;
+}
+
+.final-money{
+    color:#00df82;
+    font-size:30px;
+    font-weight:bold;
+    margin:15px 0;
+}
+
+.restart{
+    margin-top:18px;
+    border:0;
+    background:#00d982;
+    padding:12px 25px;
+    border-radius:9px;
+    font-weight:bold;
+}
+
+/* RESPONSIVE */
+
+@media(max-width:1100px){
+
+    .stats{
+        grid-template-columns:repeat(3,1fr);
+    }
+
+    .main{
+        grid-template-columns:1fr;
+    }
+}
+
+@media(max-width:700px){
+
+    .stats{
+        grid-template-columns:1fr 1fr;
+    }
+
+    .country-grid{
+        grid-template-columns:repeat(3,1fr);
+    }
+
+    .stock{
+        grid-template-columns:1fr 1fr;
+    }
+
+    .stock .trade{
+        width:100%;
+    }
+
+    .input-row{
+        flex-wrap:wrap;
+    }
+
+    input{
+        flex-basis:100%;
+    }
+
+    .action{
+        flex:1;
+    }
+}
+
+/* GLOBAL INVESTOR GELİŞTİRMELERİ */
+.brand-tagline{line-height:1.55!important;letter-spacing:.15px;color:#dce8f5!important;font-size:12px!important}
+.brand-tagline span{color:#8da2b9}
+.chart-metrics{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:12px}
+.chart-metrics>div{background:#0a1524;border:1px solid #1a2a40;border-radius:10px;padding:11px 12px;display:flex;flex-direction:column;gap:6px;min-width:0}
+.chart-metrics span{font-size:11px;color:#8799ae}
+.chart-metrics strong{font-size:15px;color:#00df82;font-variant-numeric:tabular-nums}
+.chart-note{font-size:10px;color:#74869d;margin-top:8px;line-height:1.5}
+.mini-chart{height:45px;margin:10px 0 3px;background:#091422;border-radius:7px;overflow:hidden;border:1px solid #16263a}
+.mini-chart canvas{display:block;width:100%;height:100%}
+.mini-chart-caption{font-size:9px;color:#6f8299;margin-bottom:8px}
+.stock .mini-chart{grid-column:1 / -1;grid-row:2;width:100%;margin:0}
+.stock .mini-chart-caption{grid-column:1 / 5;grid-row:3;align-self:center;margin:0}
+.stock .trade{grid-column:5;grid-row:3}
+@media(max-width:700px){.stock .mini-chart{grid-column:1 / -1;grid-row:3}.stock .mini-chart-caption{grid-column:1;grid-row:4}.stock .trade{grid-column:2;grid-row:4}}
+.history-button{border:1px solid #29405b;background:#101e30;color:#cfe0f3;border-radius:8px;padding:7px 10px;font-size:11px;cursor:pointer;white-space:nowrap}
+.history-button span{display:inline-flex;align-items:center;justify-content:center;min-width:19px;height:19px;border-radius:20px;background:#1c3651;color:#8df3c1;margin-left:4px;padding:0 4px}
+.news-history-modal{max-width:760px!important;max-height:85vh;overflow:auto}
+.modal-heading{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.modal-close{border:0;background:#18283b;color:#d9e7f7;border-radius:8px;width:34px;height:34px;font-size:24px;cursor:pointer}
+.history-intro{color:#8ea0b6;font-size:12px;line-height:1.6;margin:10px 0 16px}
+.news-history-list{display:grid;gap:10px}
+.news-history-item{padding:13px;border:1px solid #20334b;border-radius:11px;background:#0a1524}
+.news-history-top{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
+.news-history-item h3{font-size:13px;line-height:1.5;margin-bottom:7px}
+.news-history-item p{font-size:12px;line-height:1.6;color:#a6b4c5;margin-bottom:10px}
+.news-history-meta{display:flex;flex-wrap:wrap;gap:6px}
+.source-pill,.outcome-pill{display:inline-flex;align-items:center;border-radius:20px;padding:4px 7px;font-size:10px;background:#142438;color:#afc1d5}
+.source-high{background:#103b30;color:#81edc1}.source-medium{background:#3c3217;color:#f3d27c}.source-low{background:#402126;color:#ffadb5}
+.outcome-success{background:#103b30;color:#81edc1}.outcome-partial{background:#3c3217;color:#f3d27c}.outcome-fail{background:#402126;color:#ffadb5}.outcome-pending{background:#17283c;color:#9bb0c8}
+.news-source-line{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.news-detail-button{margin-top:10px;background:#13253a;border:1px solid #29405b;color:#cfe0f3;border-radius:7px;padding:6px 9px;font-size:10px;cursor:pointer}
+.news-history-empty{padding:20px;text-align:center;color:#8192a8}
+.thanks-footer{margin:24px auto 12px;max-width:1500px;padding:28px 18px;background:linear-gradient(135deg,#0a1626,#07111d);border:1px solid #1b2d43;border-radius:16px;color:#d9e6f4}
+.thanks-inner{max-width:900px;margin:auto;text-align:center}
+.thanks-kicker{font-size:10px;letter-spacing:2px;color:#5ee5ae;font-weight:800;margin-bottom:9px}
+.thanks-inner h2{font-size:25px;margin-bottom:12px}
+.thanks-inner p{font-size:12px;line-height:1.8;color:#9aadc2;margin:8px auto;max-width:780px}
+.credits{display:flex;justify-content:center;flex-wrap:wrap;gap:12px;margin:20px 0}
+.credits>div{display:flex;flex-direction:column;gap:5px;background:#0d1c2d;border:1px solid #22364e;border-radius:10px;padding:12px 20px;min-width:180px}
+.credits span{font-size:10px;color:#7f94ab}.credits strong{font-size:13px;color:#e5f0fc}
+.thanks-bottom{border-top:1px solid #1c2d42;padding-top:14px;color:#71869d;font-size:10px}
+@media(max-width:600px){.chart-metrics{grid-template-columns:1fr}.chart-metrics>div{flex-direction:row;align-items:center;justify-content:space-between}.news-history-top{flex-direction:column}.thanks-inner h2{font-size:22px}}
+
+
+/* ANA MENÜ, MOD SEÇİMİ VE SKOR TABLOSU */
+#gameApp{display:none}
+.main-menu{position:fixed;inset:0;z-index:10000;display:flex;align-items:center;justify-content:center;overflow:auto;padding:24px;background:radial-gradient(circle at 50% 0%,#153453 0,#07111e 45%,#03070e 100%);color:#e7f1fc}
+.menu-shell{width:min(100%,500px);padding:34px 30px;border:1px solid #243b55;border-radius:24px;background:rgba(7,17,30,.94);box-shadow:0 25px 90px rgba(0,0,0,.45);text-align:center}
+.menu-brand-icon{width:64px;height:64px;display:grid;place-items:center;border-radius:18px;background:linear-gradient(135deg,#0f3c38,#102847);border:1px solid #2b6a60;font-size:31px;margin:0 auto 16px}
+.menu-kicker{font-size:10px;letter-spacing:2.5px;font-weight:800;color:#55e6ae}
+.menu-shell>h1{font-size:34px;letter-spacing:-1px;margin:8px 0 7px}
+.menu-tagline{font-size:13px;line-height:1.7;color:#dce8f5}.menu-tagline span{color:#8ea5bd}
+.menu-screen{margin-top:25px;text-align:left}.menu-screen h2{text-align:center;font-size:20px;margin-bottom:12px}
+.menu-description{font-size:12px;line-height:1.8;color:#9db0c5;text-align:center;margin:0 0 18px}
+.menu-label{display:block;font-size:11px;color:#9db0c5;margin-bottom:7px}
+.menu-input{width:100%;border:1px solid #2a4059!important;background:#091524!important;color:#e7f1fc!important;border-radius:10px!important;padding:13px!important;outline:none;font-size:13px}
+.menu-primary,.menu-secondary,.menu-back{width:100%;border-radius:10px;padding:13px 14px;font-size:13px;font-weight:750;cursor:pointer;margin-top:10px}
+.menu-primary{border:1px solid #2be3a0;background:linear-gradient(135deg,#0fae79,#08795e);color:white}
+.menu-secondary{border:1px solid #2a4059;background:#102238;color:#d6e5f5}
+.menu-back{border:0;background:transparent;color:#91a8c0}
+.menu-footnote{margin-top:18px;text-align:center;color:#647b94;font-size:10px;line-height:1.7}
+.room-fields{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:center}.room-fields .menu-secondary{margin-top:0;width:auto;white-space:nowrap}
+.menu-notice{font-size:11px;line-height:1.7;color:#f0ce7c;background:#2b2617;border:1px solid #514421;border-radius:9px;padding:10px;margin-top:12px}
+.leaderboard-list{display:grid;gap:8px;margin:14px 0;max-height:300px;overflow:auto}
+.leaderboard-row{display:grid;grid-template-columns:30px 1fr auto;gap:10px;align-items:center;background:#0e1d2e;border:1px solid #21364e;border-radius:10px;padding:11px;font-size:12px}
+.leaderboard-rank{color:#66e8b2;font-weight:800}.leaderboard-name{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.leaderboard-score{font-weight:800;font-variant-numeric:tabular-nums}
+.menu-return-button{margin-top:10px;background:#15283d;color:#d6e5f5;border:1px solid #2a4059;border-radius:9px;padding:11px 16px;cursor:pointer}
+@media(max-width:520px){.menu-shell{padding:27px 19px}.menu-shell>h1{font-size:29px}.room-fields{grid-template-columns:1fr}.room-fields .menu-secondary{width:100%}}
+
+</style>
+</head>
+
+<body>
+
+<div class="main-menu" id="mainMenu">
+  <div class="menu-shell">
+    <div class="menu-brand-icon">🌍</div>
+    <div class="menu-kicker">GLOBAL FINANCE SIMULATOR</div>
+    <h1>Global Investor</h1>
+    <p class="menu-tagline">Global Markets. Smarter Decisions.<br><span>Küresel Piyasalar. Daha Akıllı Kararlar.</span></p>
+    <div class="menu-screen" id="menuHome">
+      <p class="menu-description">Küresel piyasaları analiz et, haberleri değerlendir ve 10 tur sonunda yatırım performansını ölç.</p>
+      <label class="menu-label" for="playerNameInput">Oyuncu adı</label>
+      <input id="playerNameInput" class="menu-input" maxlength="24" placeholder="Adını yaz (isteğe bağlı)" value="Oyuncu">
+      <button class="menu-primary" type="button" onclick="startSinglePlayer()">🎮 Tek Oyunculu Başla</button>
+      <button class="menu-secondary" type="button" onclick="openMultiplayerSetup()">👥 Çok Oyunculu</button>
+      <button class="menu-secondary" type="button" onclick="openLeaderboard()">🏆 Skor Tablosu</button>
+      <div class="menu-footnote">10 tur · Hisse işlemleri · Küresel krizler · Haber doğrulama</div>
+    </div>
+    <div class="menu-screen" id="multiplayerSetup" hidden>
+      <h2>👥 Çok Oyunculu</h2>
+      <p class="menu-description">Aynı cihazda yerel oynayabilir veya 2–10 kişi farklı cihazlardan çevrimiçi bir odaya katılabilirsiniz.</p>
+      <label class="menu-label" for="playerOneName">1. oyuncu</label><input id="playerOneName" class="menu-input" maxlength="24" value="Oyuncu 1" placeholder="Birinci oyuncunun adı">
+      <label class="menu-label" for="playerTwoName" style="margin-top:12px">2. oyuncu</label><input id="playerTwoName" class="menu-input" maxlength="24" value="Oyuncu 2" placeholder="İkinci oyuncunun adı">
+      <button class="menu-primary" type="button" onclick="startLocalMultiplayer()">👥 Yerel 2 Oyunculu Başlat</button>
+      <div class="online-room-box" style="margin-top:18px;padding:14px;border:1px solid #263b52;border-radius:14px;background:#0a1422;text-align:left">
+        <h3 style="margin-bottom:10px">🌐 Çevrimiçi Oyun</h3>
+        <label class="menu-label" for="onlinePlayerName">Çevrimiçi oyuncu adı</label>
+        <input id="onlinePlayerName" class="menu-input" maxlength="24" value="Oyuncu" placeholder="Oyuncu adın">
+        <label class="menu-label" for="onlineMaxPlayers" style="margin-top:10px">Oda kapasitesi</label>
+        <select id="onlineMaxPlayers" class="menu-input"><option value="2">2 oyuncu</option><option value="3">3 oyuncu</option><option value="4">4 oyuncu</option><option value="5">5 oyuncu</option><option value="6">6 oyuncu</option><option value="7">7 oyuncu</option><option value="8">8 oyuncu</option><option value="9">9 oyuncu</option><option value="10" selected>10 oyuncu</option></select>
+        <button class="menu-primary" type="button" onclick="giCreateOnlineRoom()" style="margin-top:12px">➕ Oda Oluştur</button>
+        <div class="room-fields" style="margin-top:10px"><input id="roomCodeInput" class="menu-input" maxlength="12" placeholder="Oda kodu"><button class="menu-secondary" type="button" onclick="giJoinOnlineRoom()">Odaya Katıl</button></div>
+        <div id="onlineRoomPanel" style="display:none;margin-top:12px;padding:12px;background:#101f31;border-radius:10px"></div>
+      </div>
+      <p class="menu-notice" id="multiplayerNotice">Çevrimiçi oyun için oda oluşturabilir veya bir oda koduyla katılabilirsin.</p>
+      <button class="menu-back" type="button" onclick="showMenuScreen('menuHome')">← Ana menüye dön</button>
+    </div>
+    <div class="menu-screen" id="leaderboardScreen" hidden>
+      <h2>🏆 Skor Tablosu</h2>
+      <p class="menu-description">Bu aşamada skorlar yalnızca bu tarayıcıda saklanır; çevrimiçi ortak tablo veritabanı bağlantısıyla eklenecek.</p>
+      <div id="leaderboardList" class="leaderboard-list"></div>
+      <button class="menu-back" type="button" onclick="showMenuScreen('menuHome')">← Ana menüye dön</button>
+    </div>
+  </div>
+</div>
+
+<div class="app" id="gameApp">
+
+<header class="header">
+
+<div class="logo">
+
+<div class="logo-icon">🌍</div>
+
+<div>
+<h1>Global Investor</h1>
+<p class="brand-tagline">Global Markets. Smarter Decisions.<br><span>Küresel Piyasalar. Daha Akıllı Kararlar.</span></p>
+</div>
+
+</div>
+
+<div class="round">
+Tur <b id="round">1</b> / 10
+</div>
+
+</header>
+
+
+<!-- STATS -->
+
+<section class="stats">
+
+<div class="stat">
+<div class="stat-title">Nakit</div>
+<div class="stat-value" id="cash">₺100.000</div>
+</div>
+
+<div class="stat">
+<div class="stat-title">Portföy</div>
+<div class="stat-value" id="portfolioValue">₺0</div>
+</div>
+
+<div class="stat">
+<div class="stat-title">Toplam Varlık</div>
+<div class="stat-value" id="totalValue">₺100.000</div>
+</div>
+
+<div class="stat">
+<div class="stat-title">Kâr / Zarar</div>
+<div class="stat-value green" id="profit">₺0</div>
+</div>
+
+<div class="stat">
+<div class="stat-title">Küresel Risk</div>
+<div class="stat-value red" id="risk">%45</div>
+</div>
+
+</section>
+
+
+<div class="main">
+
+
+<!-- SOL -->
+
+<div>
+
+
+<!-- ÜLKELER -->
+
+<section class="panel">
+
+<div class="title">
+
+<h2>🌎 Ülkeler</h2>
+
+<span class="blue">Piyasa Haritası</span>
+
+</div>
+
+<div class="country-grid" id="countries"></div>
+
+</section>
+
+
+<!-- KRİZ -->
+
+<section class="panel">
+
+<div class="title">
+
+<h2>⚠️ Küresel Gündem</h2>
+
+<span class="red" id="riskText">
+RİSKLİ
+</span>
+
+</div>
+
+<div id="crisis"></div>
+
+</section>
+
+
+<!-- ŞİRKETLER -->
+
+<section class="panel">
+
+<div class="title">
+
+<h2 id="marketTitle">📈 ABD Şirketleri</h2>
+
+</div>
+
+<div class="filter" id="filters"></div>
+
+<br>
+
+<div class="stock-list" id="stocks"></div>
+
+</section>
+
+
+<!-- GRAFİK -->
+
+<section class="panel">
+
+<div class="title">
+
+<div>
+
+<h2 id="chartTitle">NVIDIA</h2>
+
+<div class="stock-code" id="chartCode">
+NVDA • ABD • Teknoloji
+</div>
+
+</div>
+
+<div id="chartPrice">
+$208
+</div>
+
+</div>
+
+<div class="chart">
+<canvas id="chart"></canvas>
+</div>
+
+<div class="chart-metrics">
+  <div><span>1 yıllık değişim</span><strong id="yearChange">+0.00%</strong></div>
+  <div><span>Oyun başlangıcından</span><strong id="startChange">+0.00%</strong></div>
+  <div><span>Son tur değişimi</span><strong id="dayChange">+0.00%</strong></div>
+</div>
+<div class="chart-note">Grafikteki oyun öncesi 12 aylık fiyatlar simülasyondur; gerçek tarihsel piyasa verisi değildir.</div>
+
+
+<div class="trade-box">
+
+<div class="selected">
+
+<div>
+
+<b id="selectedName">
+NVIDIA
+</b>
+
+<div class="stock-code" id="selectedCode">
+NVDA
+</div>
+
+</div>
+
+<div class="selected-price" id="selectedPrice">
+$208
+</div>
+
+</div>
+
+
+<div class="buy-info">
+
+💰 Paranla maksimum
+
+<b class="green">
+<span id="maxShares">480</span> adet
+</b>
+
+alabilirsin.
+
+<br>
+
+Maksimum işlem:
+<b id="maxCost">$99.840</b>
+
+</div>
+
+
+<div class="input-row">
+
+<input
+id="quantity"
+type="number"
+min="1"
+value="10"
+placeholder="Adet">
+
+<button
+class="action buy"
+onclick="buyStock()">
+AL
+</button>
+
+<button
+class="action sell"
+onclick="sellStock()">
+SAT
+</button>
+
+</div>
+
+<button
+class="max"
+onclick="maxBuy()">
+
+💰 Paramın yettiği kadar al
+
+</button>
+
+</div>
+
+</section>
+
+</div>
+
+
+<!-- SAĞ -->
+
+<div>
+
+
+<!-- HABERLER -->
+
+<section class="panel">
+
+<div class="title">
+
+<h2>📰 Haber Akışı</h2>
+
+<button class="history-button" type="button" onclick="openNewsHistory()">Haber geçmişi <span id="historyCount">0</span></button>
+
+</div>
+
+<div class="news-list" id="news"></div>
+
+</section>
+
+
+<!-- PORTFÖY -->
+
+<section class="panel">
+
+<div class="title">
+
+<h2>💼 Portföyüm</h2>
+
+</div>
+
+<div class="portfolio" id="portfolio"></div>
+
+</section>
+
+
+<div class="status" id="status">
+
+🧠 Haberleri oku, şirketleri analiz et ve kararını ver.
+
+</div>
+
+
+<button class="next" onclick="nextRound()">
+
+⏭️ Piyasayı İlerle
+
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- HABER GEÇMİŞİ -->
+<div class="modal" id="newsHistoryModal" aria-hidden="true">
+  <div class="modal-box news-history-modal">
+    <div class="modal-heading"><h2>🗂️ Haber geçmişi ve doğrulama</h2><button class="modal-close" type="button" onclick="closeNewsHistory()" aria-label="Kapat">×</button></div>
+    <p class="history-intro">Haberlerin kaynak güvenilirliği, yayımlandığı tur ve doğrulama sonuçları burada tutulur.</p>
+    <div id="newsHistoryList" class="news-history-list"></div>
+  </div>
+</div>
+
+<footer class="thanks-footer">
+  <div class="thanks-inner">
+    <div class="thanks-kicker">GLOBAL INVESTOR · TEŞEKKÜR</div>
+    <h2>Teşekkürler</h2>
+    <p>Bu projenin geliştirilme sürecinde emeği geçen, fikirleriyle katkı sağlayan ve projenin ortaya çıkmasına destek olan herkese teşekkür ederiz.</p>
+    <p>Global Investor, finansal piyasaları, hisse senedi yatırımlarını ve yatırım kararlarının sonuçlarını deneyimleyerek öğrenmek amacıyla hazırlanmıştır. Projenin geliştirilmesine katkıda bulunan herkese ve deneyerek geri bildirim sağlayan tüm kullanıcılara teşekkür ederiz.</p>
+    <div class="credits">
+      <div><span>Yapımcı</span><strong>Eren S.</strong></div>
+      <div><span>Emeği Geçenler</span><strong>Nil Tuana K. ve Sadık Y.</strong></div>
+    </div>
+    <div class="thanks-bottom">Finansal okuryazarlık, analiz ve yatırım deneyimi için hazırlanmıştır.</div>
+  </div>
+</footer>
+
+<!-- GAME OVER -->
+
+<div class="modal" id="gameOver">
+
+<div class="modal-box">
+
+<h2>🏆 Oyun Bitti</h2>
+
+<p style="color:#8190a5;margin-top:8px">
+10 tur sonunda portföyün
+</p>
+
+<div class="final-money" id="finalMoney"></div>
+
+<p id="finalResult"></p>
+
+<button class="restart" onclick="location.reload()">
+Tekrar Oyna
+</button>
+<button class="menu-return-button" onclick="location.reload()">Ana Menüye Dön</button>
+
+</div>
+
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+
+/* =====================================================
+   TEMEL
+===================================================== */
+
+const STARTING_MONEY = 100000;
+
+let cash = STARTING_MONEY;
+let round = 1;
+let selectedStock = 0;
+let selectedCountry = "ABD";
+
+let currentCrisis = null;
+let currentNews = [];
+
+
+/* =====================================================
+   ÜLKELER
+===================================================== */
+
+const countries = [
+
+{
+    name:"ABD",
+    flag:"🇺🇸",
+    info:"Teknoloji • Finans",
+    currency:"$"
+},
+
+{
+    name:"Çin",
+    flag:"🇨🇳",
+    info:"Teknoloji • Otomotiv",
+    currency:"$"
+},
+
+{
+    name:"Japonya",
+    flag:"🇯🇵",
+    info:"Otomotiv • Teknoloji",
+    currency:"$"
+},
+
+{
+    name:"G.Kore",
+    flag:"🇰🇷",
+    info:"Çip • Elektronik",
+    currency:"₩"
+},
+
+{
+    name:"Tayvan",
+    flag:"🇹🇼",
+    info:"Yarı iletken",
+    currency:"$"
+},
+
+{
+    name:"Almanya",
+    flag:"🇩🇪",
+    info:"Otomotiv • Sanayi",
+    currency:"€"
+},
+
+{
+    name:"İngiltere",
+    flag:"🇬🇧",
+    info:"Finans • Enerji",
+    currency:"£"
+},
+
+{
+    name:"Fransa",
+    flag:"🇫🇷",
+    info:"Lüks • Havacılık",
+    currency:"€"
+},
+
+{
+    name:"S.Arabistan",
+    flag:"🇸🇦",
+    info:"Petrol • Finans",
+    currency:"$"
+},
+
+{
+    name:"Türkiye",
+    flag:"🇹🇷",
+    info:"Sanayi • Bankacılık",
+    currency:"₺"
+}
+
+];
+
+
+/* =====================================================
+   ŞİRKETLER
+===================================================== */
+
+const stocks = [
+
+/* ABD */
+
+{
+    name:"NVIDIA",
+    code:"NVDA",
+    country:"ABD",
+    sector:"Çip / AI",
+    price:208,
+    history:[208],
+    owned:0,
+    avg:0,
+    icon:"🟢"
+},
+
+{
+    name:"Apple",
+    code:"AAPL",
+    country:"ABD",
+    sector:"Teknoloji",
+    price:321,
+    history:[321],
+    owned:0,
+    avg:0,
+    icon:"🍎"
+},
+
+{
+    name:"Microsoft",
+    code:"MSFT",
+    country:"ABD",
+    sector:"Yazılım",
+    price:505,
+    history:[505],
+    owned:0,
+    avg:0,
+    icon:"🪟"
+},
+
+{
+    name:"JPMorgan",
+    code:"JPM",
+    country:"ABD",
+    sector:"Bankacılık",
+    price:315,
+    history:[315],
+    owned:0,
+    avg:0,
+    icon:"🏦"
+},
+
+
+/* ÇİN */
+
+{
+    name:"Tencent",
+    code:"0700",
+    country:"Çin",
+    sector:"Teknoloji",
+    price:72,
+    history:[72],
+    owned:0,
+    avg:0,
+    icon:"💬"
+},
+
+{
+    name:"Alibaba",
+    code:"BABA",
+    country:"Çin",
+    sector:"E-Ticaret",
+    price:118,
+    history:[118],
+    owned:0,
+    avg:0,
+    icon:"🛒"
+},
+
+{
+    name:"BYD",
+    code:"1211",
+    country:"Çin",
+    sector:"Otomotiv",
+    price:142,
+    history:[142],
+    owned:0,
+    avg:0,
+    icon:"🚗"
+},
+
+
+/* JAPONYA */
+
+{
+    name:"Toyota",
+    code:"7203",
+    country:"Japonya",
+    sector:"Otomotiv",
+    price:188,
+    history:[188],
+    owned:0,
+    avg:0,
+    icon:"🚘"
+},
+
+{
+    name:"Sony",
+    code:"6758",
+    country:"Japonya",
+    sector:"Elektronik",
+    price:168,
+    history:[168],
+    owned:0,
+    avg:0,
+    icon:"🎮"
+},
+
+{
+    name:"SoftBank",
+    code:"9984",
+    country:"Japonya",
+    sector:"Teknoloji",
+    price:76,
+    history:[76],
+    owned:0,
+    avg:0,
+    icon:"📡"
+},
+
+
+/* GÜNEY KORE */
+
+{
+    name:"Samsung Electronics",
+    code:"005930",
+    country:"G.Kore",
+    sector:"Elektronik / Çip",
+    price:154,
+    history:[154],
+    owned:0,
+    avg:0,
+    icon:"📱"
+},
+
+{
+    name:"SK Hynix",
+    code:"000660",
+    country:"G.Kore",
+    sector:"Bellek Çipleri",
+    price:242,
+    history:[242],
+    owned:0,
+    avg:0,
+    icon:"💾"
+},
+
+
+/* TAYVAN */
+
+{
+    name:"TSMC",
+    code:"TSM",
+    country:"Tayvan",
+    sector:"Yarı İletken",
+    price:415,
+    history:[415],
+    owned:0,
+    avg:0,
+    icon:"🔬"
+},
+
+
+/* ALMANYA */
+
+{
+    name:"SAP",
+    code:"SAP",
+    country:"Almanya",
+    sector:"Yazılım",
+    price:275,
+    history:[275],
+    owned:0,
+    avg:0,
+    icon:"💻"
+},
+
+{
+    name:"Siemens",
+    code:"SIE",
+    country:"Almanya",
+    sector:"Sanayi",
+    price:245,
+    history:[245],
+    owned:0,
+    avg:0,
+    icon:"⚙️"
+},
+
+{
+    name:"Mercedes-Benz",
+    code:"MBG",
+    country:"Almanya",
+    sector:"Otomotiv",
+    price:72,
+    history:[72],
+    owned:0,
+    avg:0,
+    icon:"🚘"
+},
+
+
+/* İNGİLTERE */
+
+{
+    name:"Shell",
+    code:"SHEL",
+    country:"İngiltere",
+    sector:"Enerji",
+    price:84,
+    history:[84],
+    owned:0,
+    avg:0,
+    icon:"🛢️"
+},
+
+{
+    name:"HSBC",
+    code:"HSBA",
+    country:"İngiltere",
+    sector:"Bankacılık",
+    price:13,
+    history:[13],
+    owned:0,
+    avg:0,
+    icon:"🏦"
+},
+
+
+/* FRANSA */
+
+{
+    name:"LVMH",
+    code:"MC",
+    country:"Fransa",
+    sector:"Lüks",
+    price:620,
+    history:[620],
+    owned:0,
+    avg:0,
+    icon:"💎"
+},
+
+{
+    name:"Airbus",
+    code:"AIR",
+    country:"Fransa",
+    sector:"Havacılık",
+    price:195,
+    history:[195],
+    owned:0,
+    avg:0,
+    icon:"✈️"
+},
+
+
+/* SUUDİ ARABİSTAN */
+
+{
+    name:"Saudi Aramco",
+    code:"2222",
+    country:"S.Arabistan",
+    sector:"Petrol",
+    price:27,
+    history:[27],
+    owned:0,
+    avg:0,
+    icon:"🛢️"
+},
+
+{
+    name:"STC",
+    code:"7010",
+    country:"S.Arabistan",
+    sector:"Telekom",
+    price:41,
+    history:[41],
+    owned:0,
+    avg:0,
+    icon:"📡"
+},
+
+
+/* TÜRKİYE */
+
+{
+    name:"Türk Hava Yolları",
+    code:"THYAO",
+    country:"Türkiye",
+    sector:"Havacılık",
+    price:348,
+    history:[348],
+    owned:0,
+    avg:0,
+    icon:"✈️"
+},
+
+{
+    name:"ASELSAN",
+    code:"ASELS",
+    country:"Türkiye",
+    sector:"Savunma",
+    price:185,
+    history:[185],
+    owned:0,
+    avg:0,
+    icon:"🛡️"
+},
+
+{
+    name:"Koç Holding",
+    code:"KCHOL",
+    country:"Türkiye",
+    sector:"Holding",
+    price:198,
+    history:[198],
+    owned:0,
+    avg:0,
+    icon:"🏢"
+},
+
+{
+    name:"Ford Otosan",
+    code:"FROTO",
+    country:"Türkiye",
+    sector:"Otomotiv",
+    price:925,
+    history:[925],
+    owned:0,
+    avg:0,
+    icon:"🚗"
+},
+
+{
+    name:"BİM",
+    code:"BIMAS",
+    country:"Türkiye",
+    sector:"Perakende",
+    price:615,
+    history:[615],
+    owned:0,
+    avg:0,
+    icon:"🛒"
+},
+
+{
+    name:"Tüpraş",
+    code:"TUPRS",
+    country:"Türkiye",
+    sector:"Enerji",
+    price:168,
+    history:[168],
+    owned:0,
+    avg:0,
+    icon:"🛢️"
+},
+
+{
+    name:"Turkcell",
+    code:"TCELL",
+    country:"Türkiye",
+    sector:"Telekom",
+    price:142,
+    history:[142],
+    owned:0,
+    avg:0,
+    icon:"📱"
+}
+
+];
+
+
+/* =====================================================
+   KRİZLER
+===================================================== */
+
+const crises = [
+
+{
+    title:"🇺🇸 ABD – 🇨🇳 Çin Ticaret Gerilimi",
+    text:"İki ekonomi arasında yeni gümrük vergileri ve teknoloji ihracatı konusunda anlaşmazlık büyüyor.",
+    risk:82,
+    effects:["Çip","Teknoloji","Otomotiv","Ticaret"],
+    sectors:["Çip / AI","Teknoloji","Elektronik / Çip"]
+},
+
+{
+    title:"🇹🇼 Tayvan Boğazı Gerilimi",
+    text:"Tayvan çevresindeki askeri hareketlilik küresel yarı iletken tedarik zinciri hakkında endişe yaratıyor.",
+    risk:91,
+    effects:["TSMC","Çip","Elektronik","Teknoloji"],
+    sectors:["Yarı İletken","Çip / AI","Bellek Çipleri"]
+},
+
+{
+    title:"🛢️ Orta Doğu Petrol Krizi",
+    text:"Bölgedeki gerilim nedeniyle petrol arzında kesinti yaşanabileceği endişesi oluştu.",
+    risk:78,
+    effects:["Petrol","Enerji","Havacılık"],
+    sectors:["Petrol","Enerji","Havacılık"]
+},
+
+{
+    title:"🇪🇺 Avrupa Sanayi Daralması",
+    text:"Avrupa'da sanayi üretimi beklentilerin altında kalırken otomotiv ve makine sektörlerinde baskı artıyor.",
+    risk:64,
+    effects:["Otomotiv","Sanayi","Euro"],
+    sectors:["Otomotiv","Sanayi"]
+},
+
+{
+    title:"🌍 Küresel Finansal Şok",
+    text:"Büyük ekonomilerde büyüme tahminlerinin düşürülmesi küresel piyasalarda riskten kaçışı artırıyor.",
+    risk:87,
+    effects:["Bankalar","Teknoloji","Tüketim"],
+    sectors:["Bankacılık","Teknoloji","Perakende"]
+},
+
+{
+    title:"🕊️ Büyük Ticaret Anlaşması",
+    text:"Büyük ekonomiler arasında beklenmedik bir ticaret anlaşmasına ilişkin olumlu sinyaller geldi.",
+    risk:25,
+    effects:["Ticaret","Otomotiv","Teknoloji"],
+    sectors:["Otomotiv","Teknoloji","Elektronik / Çip"]
+},
+
+{
+    title:"🇹🇷 Türkiye Savunma İhracatı Hamlesi",
+    text:"Türkiye'nin savunma sanayisinde yeni uluslararası anlaşmalar yapabileceğine yönelik güçlü beklentiler oluştu.",
+    risk:38,
+    effects:["Savunma","İhracat","Türkiye"],
+    sectors:["Savunma"]
+}
+
+];
+
+
+/* =====================================================
+   HABERLER
+===================================================== */
+
+const newsPool = [
+
+{
+    type:"RESMÎ",
+    title:"NVIDIA yeni yapay zekâ çipi tanıttı",
+    source:"NVIDIA",
+    target:"NVIDIA",
+    confidence:94,
+    direction:1,
+    text:"Yeni nesil yapay zekâ hızlandırıcısının veri merkezi pazarında güçlü talep görebileceği açıklandı."
+},
+
+{
+    type:"SPEKÜLASYON",
+    title:"Apple'ın yeni üretim yatırımı yapacağı iddia edildi",
+    source:"Piyasa kaynakları",
+    target:"Apple",
+    confidence:43,
+    direction:1,
+    text:"Şirketin Asya dışındaki üretim kapasitesini artırabileceği iddia ediliyor."
+},
+
+{
+    type:"RESMÎ",
+    title:"Toyota elektrikli araç yatırımını artırıyor",
+    source:"Toyota",
+    target:"Toyota",
+    confidence:91,
+    direction:1,
+    text:"Şirket elektrikli araç ve batarya yatırımlarında yeni harcama planı açıkladı."
+},
+
+{
+    type:"SÖYLENTİ",
+    title:"TSMC için yeni sipariş dalgası konuşuluyor",
+    source:"Piyasa kaynakları",
+    target:"TSMC",
+    confidence:51,
+    direction:1,
+    text:"Yapay zekâ şirketlerinden gelen siparişlerin beklentilerin üzerine çıkabileceği iddia ediliyor."
+},
+
+{
+    type:"RESMÎ",
+    title:"ASELSAN yeni savunma anlaşması açıkladı",
+    source:"Şirket açıklaması",
+    target:"ASELSAN",
+    confidence:96,
+    direction:1,
+    text:"Yeni ihracat sözleşmesinin şirket gelirlerine olumlu katkı yapması bekleniyor."
+},
+
+{
+    type:"SPEKÜLASYON",
+    title:"THY'nin yeni uzun menzilli hatlara hazırlanabileceği konuşuluyor",
+    source:"Sektör kaynakları",
+    target:"Türk Hava Yolları",
+    confidence:46,
+    direction:1,
+    text:"Yeni uçuş noktalarının şirketin yolcu kapasitesini artırabileceği iddia ediliyor."
+},
+
+{
+    type:"RESMÎ",
+    title:"Tüpraş kapasite yatırımı planlıyor",
+    source:"Şirket açıklaması",
+    target:"Tüpraş",
+    confidence:89,
+    direction:1,
+    text:"Rafineri verimliliğini artırmaya yönelik yatırım planı açıklandı."
+},
+
+{
+    type:"SÖYLENTİ",
+    title:"BYD yeni ihracat anlaşması yapabilir",
+    source:"Piyasa kaynakları",
+    target:"BYD",
+    confidence:47,
+    direction:1,
+    text:"Şirketin Avrupa pazarındaki satışlarını genişletecek yeni bir anlaşma üzerinde çalıştığı iddia ediliyor."
+},
+
+{
+    type:"RESMÎ",
+    title:"Samsung bellek çiplerinde kapasite artırıyor",
+    source:"Samsung",
+    target:"Samsung Electronics",
+    confidence:95,
+    direction:1,
+    text:"Yapay zekâ sunucularından gelen yüksek talep nedeniyle üretim kapasitesinin artırılacağı açıklandı."
+},
+
+{
+    type:"SPEKÜLASYON",
+    title:"LVMH'de Çinli tüketici talebi zayıflayabilir",
+    source:"Analist görüşleri",
+    target:"LVMH",
+    confidence:57,
+    direction:-1,
+    text:"Lüks tüketim sektöründe Asya talebinin yavaşlayabileceği değerlendiriliyor."
+},
+
+{
+    type:"RESMÎ",
+    title:"Shell petrol yatırımlarını yeniden değerlendiriyor",
+    source:"Shell",
+    target:"Shell",
+    confidence:90,
+    direction:1,
+    text:"Petrol fiyatlarındaki değişim nedeniyle yatırım planlarının güncelleneceği açıklandı."
+},
+
+{
+    type:"SÖYLENTİ",
+    title:"Koç Holding'de yeni yatırım beklentisi",
+    source:"Piyasa kaynakları",
+    target:"Koç Holding",
+    confidence:41,
+    direction:1,
+    text:"Holdingin yeni bir sanayi yatırımına hazırlanabileceği konuşuluyor."
+}
+
+];
+
+
+/* =====================================================
+   YARDIMCI
+===================================================== */
+
+function money(value){
+
+    return value.toLocaleString(
+        "tr-TR",
+        {
+            style:"currency",
+            currency:"TRY",
+            maximumFractionDigits:0
+        }
+    );
+
+}
+
+
+/*
+    Oyun fiyatları farklı para birimlerini
+    temsil ediyor. Kullanıcıya sade olması
+    için portföy hesabında sanal TL
+    değerleri kullanıyoruz.
+*/
+
+function getVisibleStocks(){
+
+    return stocks.filter(
+        s => s.country === selectedCountry
+    );
+
+}
+
+
+/* =====================================================
+   ÜLKE RENDER
+===================================================== */
+
+function renderCountries(){
+
+    const box =
+        document.getElementById("countries");
+
+    box.innerHTML="";
+
+    countries.forEach(c=>{
+
+        const div =
+            document.createElement("div");
+
+        div.className =
+            "country "+
+            (selectedCountry===c.name
+                ?"active":"");
+
+        div.onclick=()=>{
+
+            selectedCountry=c.name;
+
+            selectedStock =
+                stocks.findIndex(
+                    s=>s.country===c.name
+                );
+
+            update();
+
+        };
+
+        div.innerHTML=`
+
+            <div class="flag">
+                ${c.flag}
+            </div>
+
+            <div class="country-name">
+                ${c.name}
+            </div>
+
+            <div class="country-info">
+                ${c.info}
+            </div>
+
+        `;
+
+        box.appendChild(div);
+
+    });
+
+}
+
+
+/* =====================================================
+   FİLTRE
+===================================================== */
+
+function renderFilters(){
+
+    const box =
+        document.getElementById("filters");
+
+    box.innerHTML="";
+
+    countries.forEach(c=>{
+
+        const button =
+            document.createElement("button");
+
+        button.textContent =
+            c.flag+" "+c.name;
+
+        button.className =
+            selectedCountry===c.name
+                ?"active":"";
+
+        button.onclick=()=>{
+
+            selectedCountry=c.name;
+
+            selectedStock =
+                stocks.findIndex(
+                    s=>s.country===c.name
+                );
+
+            update();
+
+        };
+
+        box.appendChild(button);
+
+    });
+
+}
+
+
+/* =====================================================
+   KRİZ
+===================================================== */
+
+function generateCrisis(){
+
+    currentCrisis =
+        crises[
+            Math.floor(
+                Math.random()*crises.length
+            )
+        ];
+
+    document.getElementById("risk")
+        .textContent=
+        "%"+currentCrisis.risk;
+
+    document.getElementById("riskText")
+        .textContent=
+        currentCrisis.risk>=75
+        ?"ÇOK YÜKSEK"
+        :
+        currentCrisis.risk>=50
+        ?"YÜKSEK"
+        :"DÜŞÜK";
+
+    document.getElementById("crisis")
+        .innerHTML=`
+
+        <div class="crisis">
+
+            <div class="crisis-top">
+
+                <span class="tag">
+                    🌍 JEOPOLİTİK GELİŞME
+                </span>
+
+                <span class="risk">
+                    RİSK %${currentCrisis.risk}
+                </span>
+
+            </div>
+
+            <h3>
+                ${currentCrisis.title}
+            </h3>
+
+            <p>
+                ${currentCrisis.text}
+            </p>
+
+            <div class="affected">
+
+                ${currentCrisis.effects.map(
+                    x=>`<span>${x}</span>`
+                ).join("")}
+
+            </div>
+
+        </div>
+
+        `;
+
+}
+
+
+/* =====================================================
+   HABER ÜRET
+===================================================== */
+
+function generateNews(){
+
+    currentNews=[];
+
+    const box =
+        document.getElementById("news");
+
+    box.innerHTML="";
+
+
+    /* Kriz haberi */
+
+    currentNews.push({
+
+        type:"KRİZ",
+        title:currentCrisis.title,
+        source:"Global News Network",
+        target:null,
+        confidence:currentCrisis.risk,
+        direction:
+            currentCrisis.risk>70?-1:1,
+        text:currentCrisis.text,
+        crisis:true
+
+    });
+
+
+    /*
+       3 rastgele şirket haberi
+    */
+
+    let pool=[...newsPool];
+
+    for(let i=0;i<3;i++){
+
+        const index=
+            Math.floor(
+                Math.random()*pool.length
+            );
+
+        currentNews.push(
+            pool.splice(index,1)[0]
+        );
+
+    }
+
+
+    currentNews.forEach(renderNews);
+
+}
+
+
+/* =====================================================
+   HABER RENDER
+===================================================== */
+
+function renderNews(n){
+
+    const div =
+        document.createElement("div");
+
+    let cls="";
+
+    if(n.crisis)
+        cls="crisis";
+
+    else if(
+        n.type==="SPEKÜLASYON" ||
+        n.type==="SÖYLENTİ"
+    )
+        cls="spec";
+
+
+    else
+        cls="company";
+
+
+    div.className="news "+cls;
+
+    div.innerHTML=`
+
+        <div class="news-head">
+
+            <span class="tag">
+                ${n.type}
+            </span>
+
+            <span class="news-source">
+                ${n.source}
+            </span>
+
+        </div>
+
+        <h3>
+            ${n.title}
+        </h3>
+
+        <p>
+            ${n.text}
+        </p>
+
+        <div class="news-bottom">
+
+            <span class="yellow">
+                Güvenilirlik %${n.confidence}
+            </span>
+
+            <span>
+                ${
+                    n.target ||
+                    "Küresel Piyasa"
+                }
+            </span>
+
+        </div>
+
+    `;
+
+    document
+        .getElementById("news")
+        .appendChild(div);
+
+}
+
+
+/* =====================================================
+   HİSSELER
+===================================================== */
+
+function renderStocks(){
+
+    const box =
+        document.getElementById("stocks");
+
+    box.innerHTML="";
+
+
+    const list =
+        getVisibleStocks();
+
+
+    document.getElementById("marketTitle")
+        .textContent=
+        "📈 "+
+        selectedCountry+
+        " Şirketleri";
+
+
+    if(list.length===0){
+
+        box.innerHTML=
+        `<div class="empty">
+            Bu ülke için şirket bulunamadı.
+        </div>`;
+
+        return;
+
+    }
+
+
+    list.forEach(s=>{
+
+        const realIndex=
+            stocks.indexOf(s);
+
+        const previous=
+            s.history.length>1
+            ?s.history[
+                s.history.length-2
+            ]
+            :s.price;
+
+        const change=
+            ((s.price-previous)/
+            previous)*100;
+
+
+        const div =
+            document.createElement("div");
+
+        div.className=
+            "stock "+
+            (
+                realIndex===selectedStock
+                ?"active":""
+            );
+
+
+        div.onclick=()=>{
+
+            selectedStock=realIndex;
+
+            update();
+
+        };
+
+
+        div.innerHTML=`
+
+            <div class="stock-company">
+
+                <div class="stock-logo">
+                    ${s.icon}
+                </div>
+
+                <div>
+
+                    <div class="stock-name">
+                        ${s.name}
+                    </div>
+
+                    <div class="stock-code">
+                        ${s.code} • ${s.sector}
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="price">
+                ${money(s.price)}
+            </div>
+
+            <div class="
+                change
+                ${change>=0?"green":"red"}
+            ">
+
+                ${change>=0?"+":""}
+                ${change.toFixed(2)}%
+
+            </div>
+
+            <div class="stock-code">
+                ${s.country}
+            </div>
+
+            <div class="mini-chart"><canvas id="mini-chart-${s.code}" aria-label="${s.name} fiyat grafiği"></canvas></div>
+            <div class="mini-chart-caption">1 yıllık referans + oyun turları</div>
+
+            <button
+                class="trade"
+                onclick="
+                    event.stopPropagation();
+                    selectedStock=${realIndex};
+                    update();
+                ">
+
+                İşlem
+
+            </button>
+
+        `;
+
+        box.appendChild(div);
+
+    });
+
+}
+
+
+/* =====================================================
+   SEÇİLİ
+===================================================== */
+
+function updateSelected(){
+
+    const s =
+        stocks[selectedStock];
+
+    if(!s)return;
+
+
+    document.getElementById("selectedName")
+        .textContent=s.name;
+
+    document.getElementById("selectedCode")
+        .textContent=
+        s.code+
+        " • "+
+        s.country+
+        " • "+
+        s.sector;
+
+    document.getElementById("selectedPrice")
+        .textContent=
+        money(s.price);
+
+    document.getElementById("chartTitle")
+        .textContent=s.name;
+
+    document.getElementById("chartCode")
+        .textContent=
+        s.code+
+        " • "+
+        s.country+
+        " • "+
+        s.sector;
+
+    document.getElementById("chartPrice")
+        .textContent=
+        money(s.price);
+
+
+    const max=
+        Math.floor(
+            cash/s.price
+        );
+
+
+    document.getElementById("maxShares")
+        .textContent=
+        max.toLocaleString("tr-TR");
+
+    document.getElementById("maxCost")
+        .textContent=
+        money(max*s.price);
+
+}
+
+
+/* =====================================================
+   AL
+===================================================== */
+
+function buyStock(){
+
+    const s =
+        stocks[selectedStock];
+
+    const quantity =
+        parseInt(
+            document.getElementById(
+                "quantity"
+            ).value
+        );
+
+
+    if(!quantity || quantity<=0){
+
+        alert(
+            "Geçerli bir adet gir."
+        );
+
+        return;
+
+    }
+
+
+    const cost=
+        quantity*s.price;
+
+
+    if(cost>cash){
+
+        alert(
+            "Yeterli paran yok!\n\n"+
+            "Maksimum "+
+            Math.floor(
+                cash/s.price
+            )+
+            " adet alabilirsin."
+        );
+
+        return;
+
+    }
+
+
+    const oldCost=
+        s.avg*s.owned;
+
+
+    s.owned+=quantity;
+
+    s.avg=
+        (oldCost+cost)/
+        s.owned;
+
+
+    cash-=cost;
+
+
+    document.getElementById("status")
+        .textContent=
+        "📈 "+
+        quantity+
+        " adet "+
+        s.name+
+        " aldın.";
+
+
+    update();
+
+}
+
+
+/* =====================================================
+   SAT
+===================================================== */
+
+function sellStock(){
+
+    const s =
+        stocks[selectedStock];
+
+    const quantity =
+        parseInt(
+            document.getElementById(
+                "quantity"
+            ).value
+        );
+
+
+    if(!quantity || quantity<=0){
+
+        alert(
+            "Geçerli bir adet gir."
+        );
+
+        return;
+
+    }
+
+
+    if(quantity>s.owned){
+
+        alert(
+            "Bu kadar hissen yok."
+        );
+
+        return;
+
+    }
+
+
+    cash+=
+        quantity*s.price;
+
+    s.owned-=quantity;
+
+
+    if(s.owned===0)
+        s.avg=0;
+
+
+    document.getElementById("status")
+        .textContent=
+        "📉 "+
+        quantity+
+        " adet "+
+        s.name+
+        " sattın.";
+
+
+    update();
+
+}
+
+
+/* =====================================================
+   MAX
+===================================================== */
+
+function maxBuy(){
+
+    const s =
+        stocks[selectedStock];
+
+    document.getElementById(
+        "quantity"
+    ).value=
+        Math.floor(
+            cash/s.price
+        );
+
+}
+
+
+/* =====================================================
+   KRİZ ETKİSİ
+===================================================== */
+
+function applyCrisis(){
+
+    const crisis=
+        currentCrisis;
+
+
+    stocks.forEach(s=>{
+
+        let movement=0;
+
+
+        /*
+           Kriz sektörle eşleşiyorsa
+           güçlü etki.
+        */
+
+        if(
+            crisis.sectors
+            .includes(s.sector)
+        ){
+
+            movement+=
+                crisis.risk>=75
+                ?-.07
+                :-.035;
+
+        }
+
+
+        /*
+           Barış / ticaret olumlu kriz
+        */
+
+        if(
+            crisis.risk<40 &&
+            crisis.sectors
+            .includes(s.sector)
+        ){
+
+            movement=+.05;
+
+        }
+
+
+        /*
+           Türkiye savunma haberi
+        */
+
+        if(
+            crisis.title
+                .includes("Türkiye Savunma") &&
+            s.sector==="Savunma"
+        ){
+
+            movement+=.10;
+
+        }
+
+
+        s.price*=
+            1+
+            movement;
+
+    });
+
+}
+
+
+/* =====================================================
+   ŞİRKET HABER ETKİSİ
+===================================================== */
+
+function applyNews(){
+
+    currentNews.forEach(n=>{
+
+        if(n.crisis)return;
+
+
+        const s=
+            stocks.find(
+                x=>x.name===n.target
+            );
+
+
+        if(!s)return;
+
+
+        let movement=
+            n.direction*
+            .045*
+            (.5+n.confidence/100);
+
+
+        /*
+           Spekülasyonlar bazen
+           tamamen ters çıkabilir.
+        */
+
+        if(
+            n.type==="SPEKÜLASYON" ||
+            n.type==="SÖYLENTİ"
+        ){
+
+            if(
+                Math.random()<
+                .35
+            ){
+
+                movement*=-1;
+
+            }
+
+        }
+
+
+        s.price*=
+            1+movement;
+
+    });
+
+}
+
+
+/* =====================================================
+   GENEL PİYASA
+===================================================== */
+
+function marketMovement(){
+
+    stocks.forEach(s=>{
+
+        /*
+           Küçük rastgele hareket
+        */
+
+        const movement=
+            (Math.random()-.48)
+            *.035;
+
+
+        s.price*=
+            1+movement;
+
+
+        s.price=
+            Math.max(
+                1,
+                Math.round(
+                    s.price*100
+                )/100
+            );
+
+
+        s.history.push(
+            s.price
+        );
+
+
+        if(
+            s.history.length>30
+        ){
+
+            s.history.shift();
+
+        }
+
+    });
+
+}
+
+
+/* =====================================================
+   SONRAKİ TUR
+===================================================== */
+
+function nextRound(){
+
+    if(round>=10){
+
+        finishGame();
+
+        return;
+
+    }
+
+
+    /*
+       1.
+       Önce oyuncunun gördüğü
+       haberlerin sonuçları
+    */
+
+    applyCrisis();
+
+    applyNews();
+
+    marketMovement();
+
+
+    /*
+       Fiyatları düzelt
+    */
+
+    stocks.forEach(s=>{
+
+        s.price=
+            Math.max(
+                1,
+                Math.round(
+                    s.price*100
+                )/100
+            );
+
+        s.history.push(
+            s.price
+        );
+
+        if(
+            s.history.length>30
+        )
+            s.history.shift();
+
+    });
+
+
+    round++;
+
+
+    /*
+       Yeni dünya gündemi
+    */
+
+    generateCrisis();
+
+    generateNews();
+
+
+    document.getElementById("status")
+        .textContent=
+        "🌍 Yeni haberler geldi. "+
+        "Piyasayı analiz et ve yatırım kararını ver.";
+
+
+    update();
+
+}
+
+
+/* =====================================================
+   PORTFÖY
+===================================================== */
+
+function renderPortfolio(){
+
+    const box =
+        document.getElementById(
+            "portfolio"
+        );
+
+    box.innerHTML="";
+
+    let has=false;
+
+
+    stocks.forEach(s=>{
+
+        if(s.owned<=0)return;
+
+        has=true;
+
+
+        const value=
+            s.owned*s.price;
+
+
+        const profit=
+            (s.price-s.avg)*
+            s.owned;
+
+
+        const div =
+            document.createElement("div");
+
+        div.className=
+            "portfolio-item";
+
+
+        div.innerHTML=`
+
+            <div class="port-top">
+
+                <b>
+                    ${s.icon}
+                    ${s.name}
+                </b>
+
+                <b>
+                    ${money(value)}
+                </b>
+
+            </div>
+
+            <div class="port-bottom">
+
+                <span>
+                    ${s.owned} adet
+                </span>
+
+                <span>
+                    Ort. ${money(s.avg)}
+                </span>
+
+                <span class="
+                    ${profit>=0
+                    ?"green"
+                    :"red"}
+                ">
+
+                    ${profit>=0?"+":""}
+                    ${money(profit)}
+
+                </span>
+
+            </div>
+
+        `;
+
+
+        box.appendChild(div);
+
+    });
+
+
+    if(!has){
+
+        box.innerHTML=
+        `<div class="empty">
+            Henüz hisse almadın.
+        </div>`;
+
+    }
+
+}
+
+
+/* =====================================================
+   GRAFİK
+===================================================== */
+
+function drawChart(){
+
+    const canvas=
+        document.getElementById(
+            "chart"
+        );
+
+    const ctx=
+        canvas.getContext("2d");
+
+
+    const rect=
+        canvas.getBoundingClientRect();
+
+
+    const dpr=
+        window.devicePixelRatio||1;
+
+
+    canvas.width=
+        rect.width*dpr;
+
+    canvas.height=
+        rect.height*dpr;
+
+
+    ctx.setTransform(
+        dpr,0,0,dpr,0,0
+    );
+
+
+    const w=rect.width;
+    const h=rect.height;
+
+
+    ctx.clearRect(
+        0,0,w,h
+    );
+
+
+    const data=
+        stocks[selectedStock]
+            .history;
+
+
+    if(data.length<2)return;
+
+
+    const min=
+        Math.min(...data);
+
+    const max=
+        Math.max(...data);
+
+    const range=
+        max-min||1;
+
+
+    /* GRID */
+
+    ctx.strokeStyle=
+        "#17283c";
+
+    ctx.lineWidth=1;
+
+
+    for(let i=0;i<5;i++){
+
+        const y=
+            h/4*i;
+
+        ctx.beginPath();
+
+        ctx.moveTo(0,y);
+
+        ctx.lineTo(w,y);
+
+        ctx.stroke();
+
+    }
+
+
+    /* LINE */
+
+    ctx.beginPath();
+
+
+    data.forEach((value,i)=>{
+
+        const x=
+            i/
+            (data.length-1)*
+            w;
+
+
+        const y=
+            h-
+            ((value-min)/range)*
+            (h-30)-15;
+
+
+        if(i===0)
+            ctx.moveTo(x,y);
+
+        else
+            ctx.lineTo(x,y);
+
+    });
+
+
+    ctx.strokeStyle=
+        "#00df82";
+
+    ctx.lineWidth=3;
+
+    ctx.stroke();
+
+}
+
+
+/* =====================================================
+   UPDATE
+===================================================== */
+
+function update(){
+
+    let portfolio=0;
+
+
+    stocks.forEach(s=>{
+
+        portfolio+=
+            s.price*s.owned;
+
+    });
+
+
+    const total=
+        cash+portfolio;
+
+
+    const profit=
+        total-STARTING_MONEY;
+
+
+    document.getElementById("cash")
+        .textContent=
+        money(cash);
+
+
+    document.getElementById("portfolioValue")
+        .textContent=
+        money(portfolio);
+
+
+    document.getElementById("totalValue")
+        .textContent=
+        money(total);
+
+
+    const profitEl=
+        document.getElementById(
+            "profit"
+        );
+
+
+    profitEl.textContent=
+        (profit>=0?"+":"")+
+        money(profit);
+
+
+    profitEl.className=
+        "stat-value "+
+        (
+            profit>=0
+            ?"green"
+            :"red"
+        );
+
+
+    document.getElementById("round")
+        .textContent=round;
+
+
+    renderCountries();
+
+    renderFilters();
+
+    renderStocks();
+
+    renderPortfolio();
+
+    updateSelected();
+
+    drawChart();
+
+}
+
+
+/* =====================================================
+   GAME OVER
+===================================================== */
+
+function finishGame(){
+
+    let portfolio=0;
+
+
+    stocks.forEach(s=>{
+
+        portfolio+=
+            s.price*s.owned;
+
+    });
+
+
+    const total=
+        cash+portfolio;
+
+
+    const profit=
+        total-STARTING_MONEY;
+
+
+    document.getElementById(
+        "finalMoney"
+    ).textContent=
+        money(total);
+
+
+    document.getElementById(
+        "finalResult"
+    ).textContent=
+        profit>=0
+        ?
+        "🎉 "+
+        money(profit)+
+        " kâr ettin!"
+        :
+        "📉 "+
+        money(
+            Math.abs(profit)
+        )+
+        " zarar ettin.";
+
+
+    document.getElementById(
+        "gameOver"
+    ).classList.add("show");
+
+}
+
+
+/* =====================================================
+   GLOBAL INVESTOR — GRAFİK + HABER DOĞRULAMA GELİŞTİRMELERİ
+   Oyun öncesi 12 aylık referans fiyatlar simülasyondur.
+===================================================== */
+const GI_SOURCE_PROFILES = {
+  official:{label:"Şirketin resmî açıklaması",reliability:98,level:"Yüksek",className:"source-high"},
+  regulator:{label:"Borsa / resmî kurum",reliability:99,level:"Çok yüksek",className:"source-high"},
+  trusted:{label:"Güvenilir haber kuruluşu",reliability:91,level:"Yüksek",className:"source-high"},
+  analyst:{label:"Analist / sektör raporu",reliability:73,level:"Orta",className:"source-medium"},
+  market:{label:"Piyasa kaynakları",reliability:52,level:"Düşük",className:"source-low"},
+  social:{label:"Sosyal medya",reliability:30,level:"Düşük",className:"source-low"}
+};
+let giNewsHistory=[];
+let giNewsId=0;
+
+function giSourceProfile(n){
+  const source=String(n.source||"").toLocaleLowerCase("tr-TR");
+  if(n.crisis || /resmî kurum|borsa|tcmb|regülatör/.test(source)) return GI_SOURCE_PROFILES.regulator;
+  if(n.type==="RESMÎ" || /nvidia|apple|microsoft|toyota|samsung|şirket açıklaması|resmî/.test(source)) return GI_SOURCE_PROFILES.official;
+  if(/reuters|bloomberg|financial times|cnbc|wall street journal|marketwatch/.test(source)) return GI_SOURCE_PROFILES.trusted;
+  if(/analist|yatırım bankası|sektör kaynak/.test(source)) return GI_SOURCE_PROFILES.analyst;
+  if(/sosyal medya/.test(source)) return GI_SOURCE_PROFILES.social;
+  return GI_SOURCE_PROFILES.market;
+}
+function giPrepareNews(raw){
+  const n={...raw};
+  n.uid=++giNewsId;
+  n.createdRound=round;
+  n.verifyAfterRound=round+(n.type==="RESMÎ"?1:2);
+  n.sourceProfile=giSourceProfile(n);
+  n.truthProbability=Number(n.truthProbability ?? n.confidence ?? 50);
+  n.outcome="pending";
+  n.verifiedRound=null;
+  n.impactApplied=false;
+  n.correctionApplied=false;
+  n.impactResults=[];
+  return n;
+}
+function giOutcomeLabel(n){
+  if(n.outcome==="verified") return "✅ Doğrulandı";
+  if(n.outcome==="partial") return "⚠️ Kısmen doğrulandı";
+  if(n.outcome==="failed") return "❌ Doğrulanmadı";
+  return `⏳ ${n.verifyAfterRound}. turda kontrol`;
+}
+function giOutcomeClass(n){
+  return n.outcome==="verified"?"outcome-success":n.outcome==="partial"?"outcome-partial":n.outcome==="failed"?"outcome-fail":"outcome-pending";
+}
+function updateNewsHistoryButton(){
+  const el=document.getElementById("historyCount");
+  if(el) el.textContent=String(giNewsHistory.length);
+}
+function openNewsHistory(uid){
+  const modal=document.getElementById("newsHistoryModal");
+  const list=document.getElementById("newsHistoryList");
+  if(!modal||!list)return;
+  const items=uid?giNewsHistory.filter(n=>n.uid===uid):giNewsHistory;
+  list.innerHTML="";
+  if(!items.length) list.innerHTML='<div class="news-history-empty">Henüz haber kaydı yok.</div>';
+  items.forEach(n=>{
+    const profile=n.sourceProfile||giSourceProfile(n);
+    const item=document.createElement("article");
+    item.className="news-history-item";
+    item.innerHTML=`<div class="news-history-top"><h3>${n.title||"Piyasa haberi"}</h3><span class="outcome-pill ${giOutcomeClass(n)}">${giOutcomeLabel(n)}</span></div>
+      <p>${n.text||""}</p><div class="news-history-meta"><span class="source-pill ${profile.className}">${n.source||"Kaynak bilinmiyor"} · güvenilirlik %${profile.reliability}</span><span class="source-pill outcome-pending">${n.createdRound}. turda yayımlandı</span><span class="source-pill outcome-pending">Kontrol: ${n.verifyAfterRound}. tur</span><span class="source-pill outcome-pending">Olasılık %${Math.round(n.truthProbability)}</span></div>`;
+    list.appendChild(item);
+  });
+  modal.classList.add("show");
+  modal.setAttribute("aria-hidden","false");
+}
+function closeNewsHistory(){
+  const modal=document.getElementById("newsHistoryModal");
+  if(modal){modal.classList.remove("show");modal.setAttribute("aria-hidden","true");}
+}
+function generateNews(){
+  currentNews=[];
+  const box=document.getElementById("news");
+  if(box) box.innerHTML="";
+  if(currentCrisis){
+    currentNews.push(giPrepareNews({type:"KRİZ",title:currentCrisis.title,source:"Global News Network",target:null,confidence:currentCrisis.risk,direction:currentCrisis.risk>70?-1:1,text:currentCrisis.text,crisis:true,truthProbability:currentCrisis.risk>=80?78:currentCrisis.risk>=60?70:65}));
+  }
+  const pool=[...newsPool];
+  const count=Math.min(5,pool.length);
+  for(let i=0;i<count;i++){
+    const index=Math.floor(Math.random()*pool.length);
+    currentNews.push(giPrepareNews(pool.splice(index,1)[0]));
+  }
+  currentNews.forEach(n=>{giNewsHistory.unshift(n);renderNews(n);});
+  updateNewsHistoryButton();
+}
+function renderNews(n){
+  const box=document.getElementById("news");
+  if(!box)return;
+  const div=document.createElement("article");
+  const cls=n.crisis?"crisis":(n.type==="SPEKÜLASYON"||n.type==="SÖYLENTİ")?"spec":"company";
+  div.className="news "+cls;
+  const profile=n.sourceProfile||giSourceProfile(n);
+  div.innerHTML=`<div class="news-head"><span class="tag">${n.type||"HABER"}</span><span class="news-source">${n.source||"Piyasa kaynakları"}</span></div>
+    <h3>${n.title||"Piyasa haberi"}</h3><p>${n.text||""}</p>
+    <div class="news-source-line"><span class="source-pill ${profile.className}">${profile.label}: %${profile.reliability}</span><span class="outcome-pill ${giOutcomeClass(n)}">${giOutcomeLabel(n)}</span></div>
+    <div class="news-bottom"><span class="yellow">Gerçekleşme olasılığı %${Math.round(n.truthProbability)}</span><span>${n.target||"Küresel piyasa"}</span></div>
+    <button class="news-detail-button" type="button">Haber ayrıntıları</button>`;
+  div.querySelector("button").addEventListener("click",()=>openNewsHistory(n.uid));
+  box.appendChild(div);
+}
+function giApplyNews(){
+  currentNews.forEach(n=>{
+    if(n.crisis||n.impactApplied)return;
+    const stock=stocks.find(s=>s.name===n.target);
+    if(!stock)return;
+    let movement=(Number(n.direction)||1)*0.045*(0.5+(Number(n.confidence)||50)/100);
+    if((n.type==="SPEKÜLASYON"||n.type==="SÖYLENTİ")&&Math.random()<0.35) movement*=-1;
+    const before=stock.price;
+    stock.price=Math.max(1,Math.round(stock.price*(1+movement)*100)/100);
+    n.impactResults.push({stock:stock.name,before,after:stock.price,movement:(stock.price-before)/Math.max(.01,before)});
+    n.impactApplied=true;
+  });
+}
+function verifyNews(){
+  giNewsHistory.forEach(n=>{
+    if(n.outcome!=="pending"||round<n.verifyAfterRound)return;
+    const roll=Math.random()*100;
+    if(roll<n.truthProbability)n.outcome="verified";
+    else if(roll<Math.min(100,n.truthProbability+12))n.outcome="partial";
+    else n.outcome="failed";
+    n.verifiedRound=round;
+    if(n.outcome!=="verified"&&!n.correctionApplied&&!n.crisis){
+      const factor=n.outcome==="failed"?-.75:-.35;
+      n.impactResults.forEach(result=>{
+        const stock=stocks.find(s=>s.name===result.stock);
+        if(!stock)return;
+        stock.price=Math.max(1,Math.round(stock.price*(1+result.movement*factor)*100)/100);
+        if(stock.history?.length) stock.history[stock.history.length-1]=stock.price;
+      });
+      n.correctionApplied=true;
+    }
+  });
+  const box=document.getElementById("news");
+  if(box){box.innerHTML="";currentNews.forEach(renderNews);}
+  updateNewsHistoryButton();
+}
+function initializeCharts(){
+  stocks.forEach(s=>{
+    const current=Number(s.price)||1;
+    const baseline=[];
+    let value=current*(0.82+Math.random()*0.36);
+    for(let i=0;i<12;i++){
+      const drift=(current-value)/Math.max(1,12-i);
+      value=Math.max(1,value+drift+(Math.random()-0.5)*current*0.045);
+      baseline.push(Math.round(value*100)/100);
+    }
+    baseline.push(current);
+    s.history=baseline;
+    s.yearAgoPrice=baseline[0];
+    s.gameStartPrice=current;
+  });
+}
+function giUpdateChartMetrics(){
+  const s=stocks[selectedStock];if(!s)return;
+  const hist=s.history||[];
+  const yearStart=Number(s.yearAgoPrice||hist[0]||s.price);
+  const start=Number(s.gameStartPrice||hist[12]||s.price);
+  const previous=hist.length>13?Number(hist[hist.length-2]):Number(s.price);
+  [["yearChange",((s.price-yearStart)/Math.max(.01,yearStart))*100],["startChange",((s.price-start)/Math.max(.01,start))*100],["dayChange",((s.price-previous)/Math.max(.01,previous))*100]].forEach(([id,value])=>{
+    const el=document.getElementById(id);if(!el)return;
+    el.textContent=`${value>=0?"+":""}${value.toFixed(2)}%`;
+    el.className=value>=0?"green":"red";
+  });
+}
+function drawMiniCharts(){
+  document.querySelectorAll(".mini-chart canvas").forEach(canvas=>{
+    const code=canvas.id.replace("mini-chart-","");
+    const stock=stocks.find(s=>s.code===code);if(!stock)return;
+    const rect=canvas.getBoundingClientRect();if(!rect.width||!rect.height)return;
+    const dpr=window.devicePixelRatio||1;canvas.width=Math.round(rect.width*dpr);canvas.height=Math.round(rect.height*dpr);
+    const ctx=canvas.getContext("2d");ctx.setTransform(dpr,0,0,dpr,0,0);
+    const w=rect.width,h=rect.height, data=stock.history||[];ctx.clearRect(0,0,w,h);if(data.length<2)return;
+    const min=Math.min(...data),max=Math.max(...data),range=max-min||1;
+    const rising=data[data.length-1]>=data[0];ctx.beginPath();
+    data.forEach((v,i)=>{const x=i/(data.length-1)*w;const y=h-4-((v-min)/range)*(h-8);if(i===0)ctx.moveTo(x,y);else ctx.lineTo(x,y);});
+    ctx.strokeStyle=rising?"#00df82":"#ff647c";ctx.lineWidth=1.7;ctx.stroke();
+  });
+}
+const giBaseRenderStocks=renderStocks;
+renderStocks=function(){giBaseRenderStocks();drawMiniCharts();};
+const giBaseUpdate=update;
+update=function(){giBaseUpdate();giUpdateChartMetrics();drawMiniCharts();};
+nextRound=function(){
+  if(giGameMode==="localMulti"){
+    giSnapshotActivePlayer();
+    if(giActivePlayer===0){
+      giLoadPlayer(1);
+      const status=document.getElementById("status");if(status)status.textContent=`👤 ${giPlayerName} oynuyor. İşlemlerini tamamlayıp piyasayı ilerlet.`;
+      update();return;
+    }
+    /* İkinci oyuncu da kararını verdi: bu turun piyasası bir kez ilerler. */
+    applyCrisis();giApplyNews();marketMovement();
+    stocks.forEach(stock=>{stock.price=Math.max(1,Math.round(stock.price*100)/100);});
+    verifyNews();
+    if(round>=10){update();finishGame();return;}
+    round++;generateCrisis();generateNews();giLoadPlayer(0);
+    const status=document.getElementById("status");if(status)status.textContent=`🌍 ${round}. tur başladı. Sıra ${giPlayerName} oyuncusunda; oyuncular aynı piyasa fiyatlarıyla sırayla işlem yapar.`;
+    update();return;
+  }
+  if(round>10){finishGame();return;}
+  applyCrisis();giApplyNews();marketMovement();
+  stocks.forEach(stock=>{stock.price=Math.max(1,Math.round(stock.price*100)/100);});
+  verifyNews();
+  if(round>=10){update();finishGame();return;}
+  round++;generateCrisis();generateNews();
+  const status=document.getElementById("status");
+  if(status)status.textContent="🌍 Yeni haberler geldi. Kaynak güvenilirliğini, olasılıkları ve fiyat hareketlerini değerlendir.";
+  update();
+};
+document.getElementById("newsHistoryModal")?.addEventListener("click",function(e){if(e.target===this)closeNewsHistory();});
+document.addEventListener("keydown",function(e){if(e.key==="Escape")closeNewsHistory();});
+
+let giPlayerName="Oyuncu";
+let giGameMode="single";
+let giScoreSaved=false;
+let giLocalPlayers=[];
+let giActivePlayer=0;
+function giSnapshotActivePlayer(){
+  const player=giLocalPlayers[giActivePlayer];if(!player)return;
+  player.cash=cash;player.holdings={};
+  stocks.forEach(stock=>{player.holdings[stock.code]={owned:stock.owned,avg:stock.avg};});
+}
+function giLoadPlayer(index){
+  const player=giLocalPlayers[index];if(!player)return;
+  giActivePlayer=index;giPlayerName=player.name;cash=player.cash;
+  stocks.forEach(stock=>{const holding=player.holdings[stock.code]||{owned:0,avg:0};stock.owned=holding.owned;stock.avg=holding.avg;});
+}
+function giPlayerTotal(player){
+  return player.cash+stocks.reduce((sum,stock)=>sum+stock.price*((player.holdings[stock.code]||{}).owned||0),0);
+}
+function giSaveLocalMultiScores(){
+  try{const current=JSON.parse(localStorage.getItem("globalInvestorScores")||"[]");const scores=Array.isArray(current)?current:[];
+    giLocalPlayers.forEach(player=>{const total=giPlayerTotal(player);scores.push({name:player.name,total:Math.round(total*100)/100,profit:Math.round((total-STARTING_MONEY)*100)/100,date:new Date().toISOString().slice(0,10),mode:"localMulti"});});
+    scores.sort((a,b)=>b.total-a.total);localStorage.setItem("globalInvestorScores",JSON.stringify(scores.slice(0,50)));
+  }catch(e){/* Depolama kapalıysa oyun yine tamamlanır. */}
+}
+function startLocalMultiplayer(){
+  const first=(document.getElementById("playerOneName")?.value||"Oyuncu 1").trim()||"Oyuncu 1";
+  const second=(document.getElementById("playerTwoName")?.value||"Oyuncu 2").trim()||"Oyuncu 2";
+  giGameMode="localMulti";giScoreSaved=false;giActivePlayer=0;
+  giLocalPlayers=[{name:first,cash:STARTING_MONEY,holdings:{}},{name:second,cash:STARTING_MONEY,holdings:{}}];
+  stocks.forEach(stock=>{giLocalPlayers.forEach(player=>{player.holdings[stock.code]={owned:0,avg:0};});});
+  giLoadPlayer(0);
+  const menu=document.getElementById("mainMenu"),app=document.getElementById("gameApp");
+  if(menu)menu.style.display="none";if(app)app.style.display="block";
+  const status=document.getElementById("status");if(status)status.textContent=`👤 ${giPlayerName} oynuyor. İşlemlerini tamamlayıp sırayı diğer oyuncuya ver.`;
+  update();drawChart();drawMiniCharts();
+}
+function showMenuScreen(id){
+  ["menuHome","multiplayerSetup","leaderboardScreen"].forEach(key=>{
+    const el=document.getElementById(key);if(el)el.hidden=key!==id;
+  });
+}
+function startSinglePlayer(){
+  const input=document.getElementById("playerNameInput");
+  giPlayerName=(input&&input.value.trim())||"Oyuncu";
+  giGameMode="single";
+  const menu=document.getElementById("mainMenu");const app=document.getElementById("gameApp");
+  if(menu)menu.style.display="none";if(app)app.style.display="block";
+  update();drawChart();drawMiniCharts();
+}
+function openMultiplayerSetup(){showMenuScreen("multiplayerSetup");}
+function showMultiplayerNotice(){
+  const el=document.getElementById("multiplayerNotice");
+  if(el)el.textContent="Çok oyunculu oda ve oyuncu senkronizasyonu, bir sonraki aşamada veritabanı bağlantısıyla etkinleştirilecek. Şu anda çevrimiçi oda oluşturulmadı.";
+}
+function openLeaderboard(){
+  showMenuScreen("leaderboardScreen");
+  const list=document.getElementById("leaderboardList");if(!list)return;
+  let scores=[];try{scores=JSON.parse(localStorage.getItem("globalInvestorScores")||"[]");if(!Array.isArray(scores))scores=[];}catch(e){scores=[];}
+  list.innerHTML="";
+  if(!scores.length){list.innerHTML='<div class="news-history-empty">Henüz tamamlanmış oyun yok. İlk skorunu oluştur!</div>';return;}
+  scores.sort((a,b)=>b.total-a.total).slice(0,10).forEach((score,i)=>{
+    const row=document.createElement("div");row.className="leaderboard-row";
+    const name=document.createElement("span");name.className="leaderboard-name";name.textContent=score.name||"Oyuncu";
+    const rank=document.createElement("span");rank.className="leaderboard-rank";rank.textContent=String(i+1)+".";
+    const amount=document.createElement("span");amount.className="leaderboard-score";amount.textContent=money(Number(score.total)||0);
+    row.append(rank,name,amount);list.appendChild(row);
+  });
+}
+function giSaveScore(){
+  if(giScoreSaved)return;giScoreSaved=true;
+  const total=cash+stocks.reduce((sum,s)=>sum+s.price*s.owned,0);
+  const record={name:giPlayerName,total:Math.round(total*100)/100,profit:Math.round((total-STARTING_MONEY)*100)/100,date:new Date().toISOString().slice(0,10),mode:giGameMode};
+  try{const scores=JSON.parse(localStorage.getItem("globalInvestorScores")||"[]");const safe=Array.isArray(scores)?scores:[];safe.push(record);safe.sort((a,b)=>b.total-a.total);localStorage.setItem("globalInvestorScores",JSON.stringify(safe.slice(0,50)));}catch(e){/* Depolama kapalıysa oyun yine tamamlanır. */}
+}
+const giBaseFinishGame=finishGame;
+finishGame=function(){
+  if(giGameMode==="localMulti"){
+    giSnapshotActivePlayer();
+    const totals=giLocalPlayers.map(player=>({name:player.name,total:giPlayerTotal(player),profit:giPlayerTotal(player)-STARTING_MONEY})).sort((a,b)=>b.total-a.total);
+    document.getElementById("finalMoney").textContent=totals.map((item,index)=>`${index+1}. ${item.name}: ${money(item.total)}`).join(" · ");
+    document.getElementById("finalResult").textContent=totals.length>1?`${totals[0].name}, ${money(totals[0].profit)} sonuçla kazandı. ${totals[1].name}: ${money(totals[1].profit)} kâr/zarar.`:"Oyun tamamlandı.";
+    document.getElementById("gameOver").classList.add("show");
+    if(!giScoreSaved){giSaveLocalMultiScores();giScoreSaved=true;}
+    return;
+  }
+  giBaseFinishGame();giSaveScore();
+};
+
+/* BAŞLANGIÇ */
+initializeCharts();
+generateCrisis();
+generateNews();
+update();
+window.addEventListener("resize",()=>{drawChart();drawMiniCharts();});
+
+</script>
+
+<script>
+
+
+/* =========================================================
+   GLOBAL INVESTOR — SUPABASE ÇEVRİMİÇİ ODA ENTEGRASYONU
+   Not: PUBLISHABLE anahtar bu dosyada kullanılır; service_role
+   anahtarını tarayıcı koduna kesinlikle koymayın.
+========================================================= */
+const GI_SUPABASE_URL = "https://jrhdtturmdfqpbjyagfl.supabase.co";
+const GI_SUPABASE_PUBLISHABLE_KEY = "sb_publishable_DO4NFLF-MwTMYf95k9Xvnw_9uH3j7sW";
+let giSupabase = null;
+let giOnlinePlayers = [];
+let giOnline = {active:false,host:false,roomCode:null,token:null,playerId:null,roomId:null,pollTimer:null,advancing:false,ready:false,lastStateSignature:"",lastRound:0};
+
+function giOnlineNotice(message,isError=false){
+  const el=document.getElementById("multiplayerNotice");
+  if(el){el.textContent=message;el.style.color=isError?"#ff8293":"#9fe8c0";}
+  const panel=document.getElementById("onlineRoomPanel");
+  if(panel && panel.style.display!=="none"){
+    const status=panel.querySelector("[data-room-status]");
+    if(status)status.textContent=message;
+  }
+}
+function giEnsureSupabase(){
+  if(giSupabase)return giSupabase;
+  if(!window.supabase || !window.supabase.createClient)throw new Error("Supabase kütüphanesi yüklenemedi. İnternet bağlantısını kontrol et.");
+  if(!GI_SUPABASE_PUBLISHABLE_KEY || GI_SUPABASE_PUBLISHABLE_KEY.includes("PASTE_"))throw new Error("HTML içindeki GI_SUPABASE_PUBLISHABLE_KEY alanına Supabase projenin publishable anahtarını eklemelisin.");
+  giSupabase=window.supabase.createClient(GI_SUPABASE_URL,GI_SUPABASE_PUBLISHABLE_KEY,{auth:{persistSession:false,autoRefreshToken:false}});
+  return giSupabase;
+}
+function giFirstRow(data){return Array.isArray(data)?(data[0]||{}):(data||{});}
+function giOnlineName(){return (document.getElementById("onlinePlayerName")?.value||document.getElementById("playerNameInput")?.value||"Oyuncu").trim().slice(0,24)||"Oyuncu";}
+function giOnlineSetSession(data,host){
+  const row=giFirstRow(data);
+  giOnline.active=true;giOnline.host=!!host;
+  giOnline.roomCode=String(row.room_code||row.code||row.p_room_code||document.getElementById("roomCodeInput")?.value||"").toUpperCase();
+  giOnline.token=row.player_token||row.token||row.p_player_token||null;
+  giOnline.playerId=row.player_id||row.id||null;giOnline.roomId=row.room_id||null;
+  if(!giOnline.roomCode||!giOnline.token)throw new Error("Sunucudan oda kodu veya oyuncu anahtarı gelmedi. Supabase RPC dönüş alanlarını kontrol et.");
+  giGameMode="onlineMulti";giPlayerName=giOnlineName();giScoreSaved=false;
+  const panel=document.getElementById("onlineRoomPanel");
+  if(panel){panel.style.display="block";panel.innerHTML=`<div style="font-size:12px;color:#a9bdd2">ODA KODU</div><div style="font-size:26px;font-weight:800;letter-spacing:3px;margin:4px 0 10px">${giOnline.roomCode}</div><div data-room-status>Oda hazırlanıyor…</div><div id="onlinePlayersList" style="margin-top:8px"></div><button type="button" id="onlineStartButton" class="menu-primary" style="margin-top:10px;display:${host?"block":"none"}" onclick="giStartOnlineGame()">▶ Oyunu Başlat</button><button type="button" class="menu-secondary" style="margin-top:8px" onclick="giLeaveOnlineRoom()">Odadan Ayrıl</button>`;}
+  giOnlineNotice(host?"Oda oluşturuldu. Kodu diğer oyuncularla paylaş.":"Odaya katıldın. Oda sahibinin oyunu başlatmasını bekle.");
+  giOnlinePollOnce();if(giOnline.pollTimer)clearInterval(giOnline.pollTimer);giOnline.pollTimer=setInterval(giOnlinePollOnce,2000);
+}
+async function giCreateOnlineRoom(){
+  try{const sb=giEnsureSupabase();const cap=Math.max(2,Math.min(10,Number(document.getElementById("onlineMaxPlayers")?.value)||10));
+    const {data,error}=await sb.rpc("create_game_room",{p_player_name:giOnlineName(),p_max_players:cap});if(error)throw error;
+    giOnlineSetSession(data,true);
+  }catch(e){console.error(e);giOnlineNotice("Oda oluşturulamadı: "+(e.message||String(e)),true);}
+}
+async function giJoinOnlineRoom(){
+  try{const code=(document.getElementById("roomCodeInput")?.value||"").trim().toUpperCase();if(!code)throw new Error("Önce oda kodunu yaz.");
+    const sb=giEnsureSupabase();const {data,error}=await sb.rpc("join_game_room",{p_room_code:code,p_player_name:giOnlineName()});if(error)throw error;
+    giOnlineSetSession(data,false);
+  }catch(e){console.error(e);giOnlineNotice("Odaya katılınamadı: "+(e.message||String(e)),true);}
+}
+function giMarketPayload(){return stocks.map(s=>({name:s.name,code:s.code,country:s.country,sector:s.sector,price:s.price,history:s.history,yearAgoPrice:s.yearAgoPrice,gameStartPrice:s.gameStartPrice,icon:s.icon}));}
+function giNewsPayload(){return {currentNews,history:giNewsHistory.slice(0,100),newsId:giNewsId};}
+function giCrisisPayload(){return currentCrisis||null;}
+function giPlayerPortfolioPayload(){const portfolio={};stocks.forEach(s=>{portfolio[s.code]={owned:Number(s.owned)||0,avg:Number(s.avg)||0};});return portfolio;}
+async function giSaveOnlinePlayer(ready=false){
+  if(!giOnline.active||!giSupabase||!giOnline.token)return;
+  const total=cash+stocks.reduce((sum,s)=>sum+s.price*(Number(s.owned)||0),0);
+  const {error}=await giSupabase.rpc("save_player_game_data",{p_room_code:giOnline.roomCode,p_player_token:giOnline.token,p_cash:cash,p_portfolio:giPlayerPortfolioPayload(),p_total_value:total,p_is_ready:!!ready});
+  if(error)throw error;
+}
+async function giPublishOnlineState(status="playing"){
+  if(!giOnline.active||!giOnline.host)return;
+  const {error}=await giSupabase.rpc("host_update_game_state",{p_room_code:giOnline.roomCode,p_player_token:giOnline.token,p_market_state:giMarketPayload(),p_news_state:giNewsPayload(),p_crisis_state:giCrisisPayload(),p_current_round:round,p_status:status});
+  if(error)throw error;
+}
+function giExtractOnlineState(payload){
+  let root=giFirstRow(payload);if(root.data&&typeof root.data==="object")root=root.data;
+  const room=root.room||root.game_room||root;
+  const state=root.state||root.game_state||root.game_states||{};
+  return {root,room,state,players:root.players||root.game_players||[]};
+}
+async function giOnlinePollOnce(){
+  if(!giOnline.active||!giSupabase||!giOnline.token)return;
+  try{
+    const {data,error}=await giSupabase.rpc("get_game_room_state",{p_room_code:giOnline.roomCode,p_player_token:giOnline.token});if(error)throw error;
+    const x=giExtractOnlineState(data),room=x.room,state=x.state;
+    const players=Array.isArray(x.players)?x.players:[];giOnlinePlayers=players;
+    const playerList=document.getElementById("onlinePlayersList");
+    if(playerList)playerList.innerHTML=players.map((p,i)=>`<div style="font-size:13px;padding:3px 0">${p.player_name||p.name||("Oyuncu "+(i+1))}${p.is_ready?" · Hazır":""}${p.is_host?" · Oda sahibi":""}</div>`).join("")||"<div style='font-size:13px'>Oyuncular bekleniyor…</div>";
+    const status=String(room.status||state.status||"waiting").toLowerCase();
+    const statusEl=document.querySelector("[data-room-status]");if(statusEl)statusEl.textContent=status==="playing"?`Oyun başladı · ${Number(state.current_round||room.current_round||round)}. tur`:(status==="finished"?"Oyun tamamlandı.":`Oyuncular bekleniyor (${players.length}/?)`);
+    const startBtn=document.getElementById("onlineStartButton");if(startBtn)startBtn.disabled=players.length<2;
+    if(status==="playing"||status==="finished"){
+      const market=state.market_state||state.marketState||root.market_state;
+      if(Array.isArray(market)){
+        market.forEach(remote=>{const local=stocks.find(s=>s.code===remote.code);if(!local)return;local.price=Number(remote.price)||local.price;if(Array.isArray(remote.history))local.history=remote.history.slice();if(remote.yearAgoPrice!=null)local.yearAgoPrice=remote.yearAgoPrice;if(remote.gameStartPrice!=null)local.gameStartPrice=remote.gameStartPrice;});
+      }
+      const remoteRound=Number(state.current_round||state.currentRound||room.current_round);if(remoteRound>0)round=Math.min(10,remoteRound);
+      const remoteNews=state.news_state||state.newsState||root.news_state;
+      if(remoteNews&&Array.isArray(remoteNews.currentNews)){currentNews=remoteNews.currentNews;giNewsHistory=remoteNews.history||giNewsHistory;giNewsId=remoteNews.newsId||giNewsId;const box=document.getElementById("news");if(box){box.innerHTML="";currentNews.forEach(renderNews);}updateNewsHistoryButton();}
+      const crisis=state.crisis_state||state.crisisState||root.crisis_state;if(crisis!==undefined)currentCrisis=crisis;
+      if(!giOnline.host){const app=document.getElementById("gameApp"),menu=document.getElementById("mainMenu");if(menu)menu.style.display="none";if(app)app.style.display="block";giGameMode="onlineMulti";update();}
+      if(status==="finished"&&!document.getElementById("gameOver")?.classList.contains("show"))finishGame();
+    }
+  }catch(e){console.warn("Online room polling:",e);giOnlineNotice("Bağlantı yenileniyor: "+(e.message||String(e)),true);}
+}
+async function giStartOnlineGame(){
+  try{if(!giOnline.active||!giOnline.host)throw new Error("Oyunu yalnızca oda sahibi başlatabilir.");
+    const {data,error}=await giSupabase.rpc("start_game_room",{p_room_code:giOnline.roomCode,p_player_token:giOnline.token});if(error)throw error;
+    giGameMode="onlineMulti";round=1;initializeCharts();generateCrisis();generateNews();
+    await giPublishOnlineState("playing");await giSaveOnlinePlayer(false);
+    const menu=document.getElementById("mainMenu"),app=document.getElementById("gameApp");if(menu)menu.style.display="none";if(app)app.style.display="block";
+    const st=document.getElementById("status");if(st)st.textContent="🌐 Çevrimiçi oyun başladı. Piyasa oda sahibi tarafından eşit biçimde güncellenir.";
+    update();
+  }catch(e){console.error(e);giOnlineNotice("Oyun başlatılamadı: "+(e.message||String(e)),true);}
+}
+async function giOnlineNextRound(){
+  if(giOnline.advancing)return;giOnline.advancing=true;
+  try{
+    await giSaveOnlinePlayer(true);
+    if(!giOnline.host){giOnlineNotice("Hazır durumun kaydedildi. Oda sahibinin diğer oyuncuları bekleyip turu ilerletmesini bekle.");return;}
+    applyCrisis();giApplyNews();marketMovement();stocks.forEach(s=>{s.price=Math.max(1,Math.round(s.price*100)/100);s.history.push(s.price);if(s.history.length>30)s.history.shift();});verifyNews();
+    if(round>=10){await giSaveOnlinePlayer(false);await giPublishOnlineState("finished");finishGame();return;}
+    round++;generateCrisis();generateNews();await giPublishOnlineState("playing");
+    const st=document.getElementById("status");if(st)st.textContent=`🌐 ${round}. tur başladı. Her oyuncu kendi portföyünü yönetir; piyasa tüm oyuncular için ortaktır.`;
+    await giSaveOnlinePlayer(false);update();
+  }catch(e){console.error(e);giOnlineNotice("Tur kaydedilemedi: "+(e.message||String(e)),true);}
+  finally{giOnline.advancing=false;}
+}
+const giPreOnlineBuy=buyStock,giPreOnlineSell=sellStock,giPreOnlineMaxBuy=maxBuy;
+buyStock=function(){const r=giPreOnlineBuy.apply(this,arguments);if(giOnline.active)giSaveOnlinePlayer(false).catch(e=>giOnlineNotice("Portföy kaydedilemedi: "+e.message,true));return r;};
+sellStock=function(){const r=giPreOnlineSell.apply(this,arguments);if(giOnline.active)giSaveOnlinePlayer(false).catch(e=>giOnlineNotice("Portföy kaydedilemedi: "+e.message,true));return r;};
+maxBuy=function(){const r=giPreOnlineMaxBuy.apply(this,arguments);if(giOnline.active)giSaveOnlinePlayer(false).catch(e=>giOnlineNotice("Portföy kaydedilemedi: "+e.message,true));return r;};
+const giPreOnlineNextRound=nextRound;
+nextRound=function(){if(giOnline.active){giOnlineNextRound();return;}return giPreOnlineNextRound.apply(this,arguments);};
+const giPreOnlineFinishGame=finishGame;
+finishGame=function(){if(giOnline.active){giShowOnlineResults();return;}return giPreOnlineFinishGame.apply(this,arguments);};
+function giShowOnlineResults(){
+  const modal=document.getElementById("gameOver");if(!modal)return;
+  const results=(giOnlinePlayers||[]).map(p=>{
+    let total=Number(p.total_value||p.totalValue||0);
+    if(!total){const pcash=Number(p.cash||0),portfolio=p.portfolio||{};total=pcash+stocks.reduce((sum,s)=>sum+s.price*Number((portfolio[s.code]||{}).owned||0),0);}
+    return {name:p.player_name||p.name||"Oyuncu",total,profit:total-STARTING_MONEY};
+  }).sort((a,b)=>b.total-a.total);
+  const moneyEl=document.getElementById("finalMoney"),resultEl=document.getElementById("finalResult");
+  if(moneyEl)moneyEl.textContent=results.map((p,i)=>`${i+1}. ${p.name}: ${money(p.total)}`).join(" · ")||`Senin toplam varlığın: ${money(cash+stocks.reduce((sum,s)=>sum+s.price*s.owned,0))}`;
+  if(resultEl)resultEl.textContent=results.length?`🏆 ${results[0].name} birinci oldu!`:"Çevrimiçi oyun tamamlandı.";
+  modal.classList.add("show");
+}
+function giLeaveOnlineRoom(){if(giOnline.pollTimer)clearInterval(giOnline.pollTimer);giOnline={active:false,host:false,roomCode:null,token:null,playerId:null,roomId:null,pollTimer:null,advancing:false,ready:false,lastStateSignature:"",lastRound:0};giSupabase=null;const panel=document.getElementById("onlineRoomPanel");if(panel){panel.style.display="none";panel.innerHTML="";}giOnlineNotice("Çevrimiçi odadan ayrıldın.");showMenuScreen("multiplayerSetup");const menu=document.getElementById("mainMenu"),app=document.getElementById("gameApp");if(menu)menu.style.display="flex";if(app)app.style.display="none";}
+
+</script>
+</body>
+</html>
