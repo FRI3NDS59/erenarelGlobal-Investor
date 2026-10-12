@@ -3360,7 +3360,7 @@ window.addEventListener("resize",()=>{drawChart();drawMiniCharts();});
    anahtarını tarayıcı koduna kesinlikle koymayın.
 ========================================================= */
 const GI_SUPABASE_URL = "https://jrhdtturmdfqpbjyagfl.supabase.co";
-const GI_SUPABASE_PUBLISHABLE_KEY = "sb_publishable_DO4NFLF-MwTMYf95k9Xvnw_9uH3j7sW";
+const GI_SUPABASE_PUBLISHABLE_KEY = "PASTE_SUPABASE_PUBLISHABLE_KEY_HERE";
 let giSupabase = null;
 let giOnlinePlayers = [];
 let giOnline = {active:false,host:false,roomCode:null,token:null,playerId:null,roomId:null,pollTimer:null,advancing:false,ready:false,lastStateSignature:"",lastRound:0};
@@ -3485,16 +3485,47 @@ const giPreOnlineNextRound=nextRound;
 nextRound=function(){if(giOnline.active){giOnlineNextRound();return;}return giPreOnlineNextRound.apply(this,arguments);};
 const giPreOnlineFinishGame=finishGame;
 finishGame=function(){if(giOnline.active){giShowOnlineResults();return;}return giPreOnlineFinishGame.apply(this,arguments);};
-function giShowOnlineResults(){
+async function giShowOnlineResults(){
   const modal=document.getElementById("gameOver");if(!modal)return;
+  const moneyEl=document.getElementById("finalMoney"),resultEl=document.getElementById("finalResult");
+  try{
+    // Final skorundan önce bu cihazdaki son bakiye/portföy bilgisini kaydet.
+    await giSaveOnlinePlayer(false);
+    // Eski polling verisi yerine sunucudan oyuncuların ve son piyasa durumunun güncel halini al.
+    if(giOnline.active&&giSupabase&&giOnline.token){
+      const {data,error}=await giSupabase.rpc("get_game_room_state",{p_room_code:giOnline.roomCode,p_player_token:giOnline.token});
+      if(error)throw error;
+      const x=giExtractOnlineState(data);
+      if(Array.isArray(x.players))giOnlinePlayers=x.players;
+      const state=x.state||{};
+      const market=state.market_state||state.marketState||x.root.market_state;
+      if(Array.isArray(market))market.forEach(remote=>{
+        const local=stocks.find(s=>s.code===remote.code);if(!local)return;
+        const price=Number(remote.price);if(Number.isFinite(price)&&price>0)local.price=price;
+      });
+    }
+  }catch(e){console.warn("Final skorları yenilenemedi; eldeki son veriler kullanılacak:",e);}
+
+  // total_value eski piyasa fiyatlarıyla kaydedilmiş olabilir. Skoru nakit + güncel fiyatlarla portföyden hesapla.
   const results=(giOnlinePlayers||[]).map(p=>{
-    let total=Number(p.total_value||p.totalValue||0);
-    if(!total){const pcash=Number(p.cash||0),portfolio=p.portfolio||{};total=pcash+stocks.reduce((sum,s)=>sum+s.price*Number((portfolio[s.code]||{}).owned||0),0);}
+    const portfolio=(p.portfolio&&typeof p.portfolio==="object")?p.portfolio:{};
+    const hasCash=p.cash!==undefined&&p.cash!==null&&p.cash!=="";
+    let total;
+    if(hasCash){
+      total=Number(p.cash)||0;
+      total+=stocks.reduce((sum,s)=>{
+        const holding=portfolio[s.code]||{};
+        const owned=Number(typeof holding==="number"?holding:holding.owned)||0;
+        return sum+s.price*owned;
+      },0);
+    }else{
+      total=Number(p.total_value??p.totalValue??0)||0;
+    }
     return {name:p.player_name||p.name||"Oyuncu",total,profit:total-STARTING_MONEY};
   }).sort((a,b)=>b.total-a.total);
-  const moneyEl=document.getElementById("finalMoney"),resultEl=document.getElementById("finalResult");
-  if(moneyEl)moneyEl.textContent=results.map((p,i)=>`${i+1}. ${p.name}: ${money(p.total)}`).join(" · ")||`Senin toplam varlığın: ${money(cash+stocks.reduce((sum,s)=>sum+s.price*s.owned,0))}`;
-  if(resultEl)resultEl.textContent=results.length?`🏆 ${results[0].name} birinci oldu!`:"Çevrimiçi oyun tamamlandı.";
+
+  if(moneyEl)moneyEl.textContent=results.map((p,i)=>`${i+1}. ${p.name} — Varlık: ${money(p.total)} | Kâr/Zarar: ${p.profit>=0?"+":"−"}${money(Math.abs(p.profit))}`).join("  •  ")||`Senin toplam varlığın: ${money(cash+stocks.reduce((sum,s)=>sum+s.price*s.owned,0))}`;
+  if(resultEl)resultEl.textContent=results.length?`🏆 ${results[0].name} birinci oldu! ${results[0].profit>=0?"Kâr":"Zarar"}: ${money(Math.abs(results[0].profit))}${results[0].profit<0?" zarar":""}.`:"Çevrimiçi oyun tamamlandı.";
   modal.classList.add("show");
 }
 function giLeaveOnlineRoom(){if(giOnline.pollTimer)clearInterval(giOnline.pollTimer);giOnline={active:false,host:false,roomCode:null,token:null,playerId:null,roomId:null,pollTimer:null,advancing:false,ready:false,lastStateSignature:"",lastRound:0};giSupabase=null;const panel=document.getElementById("onlineRoomPanel");if(panel){panel.style.display="none";panel.innerHTML="";}giOnlineNotice("Çevrimiçi odadan ayrıldın.");showMenuScreen("multiplayerSetup");const menu=document.getElementById("mainMenu"),app=document.getElementById("gameApp");if(menu)menu.style.display="flex";if(app)app.style.display="none";}
